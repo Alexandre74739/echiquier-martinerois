@@ -2,7 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { schema } from './schema'
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'csl3lf8y'
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
 
 export default defineConfig({
