@@ -76,8 +76,8 @@ export function StockfishClient() {
           <Chessboard options={{ ...boardOptions, position: game.fen(), boardOrientation: orientation, onPieceDrop: makeMove }} />
         </div>
         <div className="flex gap-2 w-full max-w-120">
-          <button onClick={reset} className="flex-1 bg-noir hover:bg-gris-fonce text-blanc py-2 font-display text-sm tracking-wider transition-colors">↺ Réinitialiser</button>
-          <button onClick={() => setOrientation((o) => o === 'white' ? 'black' : 'white')} className="flex-1 border border-gris hover:border-blanc text-gris hover:text-blanc py-2 font-display text-sm tracking-wider transition-colors">⇅ Retourner</button>
+          <button onClick={reset} className="cursor-pointer flex-1 bg-noir hover:bg-gris-fonce text-blanc py-3 font-display text-sm tracking-wider transition-colors">↺ Réinitialiser</button>
+          <button onClick={() => setOrientation((o) => o === 'white' ? 'black' : 'white')} className="cursor-pointer flex-1 bg-gris-clair hover:bg-gris hover:text-blanc text-noir py-3 font-display text-sm tracking-wider transition-colors">⇅ Retourner</button>
         </div>
         <FenInput value={fenInput} onChange={setFenInput} onLoad={loadFen} />
       </div>

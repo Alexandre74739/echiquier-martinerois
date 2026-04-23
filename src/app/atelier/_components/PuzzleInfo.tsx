@@ -9,49 +9,23 @@ type Props = {
   onReveal: () => void;
 };
 
-export function PuzzleInfo({
-  puzzle,
-  status,
-  showSolution,
-  onNewPuzzle,
-  onReveal,
-}: Props) {
+export function PuzzleInfo({ status, showSolution, onNewPuzzle, onReveal }: Props) {
   return (
-    <>
-      <div className="w-full max-w-[480px] bg-gris-clair p-4 text-sm text-gris">
-        <div className="flex justify-between">
-          <span>Puzzle #{puzzle.id}</span>
-          <span>
-            Évaluation : <strong className="text-noir">{puzzle.rating}</strong>
-          </span>
-        </div>
-        {puzzle.themes.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {puzzle.themes.slice(0, 4).map((t) => (
-              <span key={t} className="text-xs bg-gris text-blanc px-2 py-0.5">
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="flex gap-3 w-full max-w-[480px]">
+    <div className="flex gap-2 w-full max-w-120">
+      <button
+        onClick={onNewPuzzle}
+        className="cursor-pointer flex-1 bg-noir hover:bg-gris-fonce text-blanc px-4 py-3 font-display tracking-wider transition-colors text-sm"
+      >
+        ♞ Nouveau puzzle
+      </button>
+      {status === "playing" && !showSolution && (
         <button
-          onClick={onNewPuzzle}
-          className="flex-1 bg-noir hover:bg-gris-fonce text-blanc px-4 py-3 font-display tracking-wider transition-colors text-sm"
+          onClick={onReveal}
+          className="cursor-pointer flex-1 bg-gris-clair hover:bg-gris hover:text-blanc text-noir px-4 py-3 font-display tracking-wider transition-colors text-sm"
         >
-          ♞ Nouveau puzzle
+          Voir la solution
         </button>
-        {status === "playing" && !showSolution && (
-          <button
-            onClick={onReveal}
-            className="flex-1 border border-gris hover:border-blanc text-gris hover:text-blanc px-4 py-3 font-display tracking-wider transition-colors text-sm"
-          >
-            Voir la solution
-          </button>
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
 }

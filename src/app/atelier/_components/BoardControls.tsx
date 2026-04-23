@@ -6,16 +6,25 @@ type Props = {
 }
 
 export function BoardControls({ onReset, onUndo, onFlip, canUndo }: Props) {
-  const btn = 'flex-1 min-w-20 py-3 font-display tracking-wider transition-colors text-sm'
   return (
-    <div className="flex gap-3 flex-wrap justify-center w-full max-w-120">
-      <button onClick={onReset} className={`${btn} bg-noir hover:bg-gris-fonce text-blanc`}>
+    <div className="flex gap-2 w-full max-w-120">
+      <button
+        onClick={onReset}
+        className="cursor-pointer flex-1 py-3 bg-noir hover:bg-gris-fonce text-blanc font-display tracking-wider text-sm transition-colors"
+      >
         ↺ Réinitialiser
       </button>
-      <button onClick={onUndo} disabled={!canUndo} className={`${btn} border border-gris hover:border-blanc text-gris hover:text-blanc disabled:opacity-40`}>
+      <button
+        onClick={onUndo}
+        disabled={!canUndo}
+        className="cursor-pointer flex-1 py-3 bg-gris-clair hover:bg-gris hover:text-blanc text-noir font-display tracking-wider text-sm transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+      >
         ← Annuler
       </button>
-      <button onClick={onFlip} className={`${btn} border border-gris hover:border-blanc text-gris hover:text-blanc`}>
+      <button
+        onClick={onFlip}
+        className="cursor-pointer flex-1 py-3 bg-gris-clair hover:bg-gris hover:text-blanc text-noir font-display tracking-wider text-sm transition-colors"
+      >
         ⇅ Retourner
       </button>
     </div>
