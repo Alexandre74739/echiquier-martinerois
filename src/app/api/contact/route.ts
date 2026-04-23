@@ -62,9 +62,10 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const serviceId = process.env.EMAILJS_SERVICE_ID
+  const serviceId  = process.env.EMAILJS_SERVICE_ID
   const templateId = process.env.EMAILJS_TEMPLATE_ID
-  const publicKey = process.env.EMAILJS_PUBLIC_KEY
+  const publicKey  = process.env.EMAILJS_PUBLIC_KEY
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY  // requis si "Use Private Key" est coché
 
   if (!serviceId || !templateId || !publicKey) {
     console.error('[contact] Variables EmailJS manquantes côté serveur')
@@ -75,25 +76,31 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const payload: Record<string, unknown> = {
+      service_id:      serviceId,
+      template_id:     templateId,
+      user_id:         publicKey,
+      template_params: {
+        from_name:  nom.trim(),
+        from_email: email.trim(),
+        subject:    sujet?.trim() || 'Contact site web',
+        message:    message.trim(),
+      },
+    }
+    /* accessToken obligatoire quand "Use Private Key" est activé sur EmailJS */
+    if (privateKey) payload.accessToken = privateKey
+
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        service_id: serviceId,
-        template_id: templateId,
-        user_id: publicKey,
-        template_params: {
-          from_name: nom.trim(),
-          from_email: email.trim(),
-          subject: sujet?.trim() || 'Contact site web',
-          message: message.trim(),
-        },
-      }),
+      body: JSON.stringify(payload),
     })
 
     if (!res.ok) {
+      const body = await res.text().catch(() => '(impossible de lire la réponse)')
+      console.error(`[contact] EmailJS ${res.status}: ${body}`)
       return NextResponse.json(
-        { error: "L'envoi a échoué. Veuillez réessayer." },
+        { error: "L'envoi a échoué. Veuillez réessayer.", detail: body },
         { status: 502 },
       )
     }
