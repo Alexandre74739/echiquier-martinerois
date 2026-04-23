@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# L'Échiquier Martinérois
 
-## Getting Started
+Plateforme numérique officielle du club d'échecs de Saint-Martin-d'Hères. Ce projet intègre des outils de jeu interactifs, une gestion de contenu dynamique et une interface utilisateur haute performance.
 
-First, run the development server:
+## Technologies Utilisées
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* **Framework** : Next.js 16 (App Router)
+* **Langage** : TypeScript
+* **Interface de jeu** : React Chessboard & Chess.js
+* **Moteur d'analyse** : Stockfish
+* **Gestion de contenu (CMS)** : Sanity.io
+* **Styles** : Tailwind CSS 4
+* **Communication** : EmailJS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture du Projet
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Le code source est centralisé dans le répertoire `src/` pour séparer la logique applicative de la configuration racine :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **src/app** : Système de routage et pages de l'application.
+* **src/components** : Composants UI réutilisables (Navigation, Chessboard, Sections).
+* **src/lib** : Fonctions utilitaires et clients API.
+* **src/sanity** : Schémas de données et configuration du studio Sanity.
+* **public** : Ressources statiques (images, logos).
 
-## Learn More
+## Installation et Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Prérequis
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Node.js version 18.0 ou supérieure.
+* Un gestionnaire de paquets (npm, pnpm ou yarn).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Procédure d'installation
 
-## Deploy on Vercel
+1.  **Clonage du dépôt**
+    ```bash
+    git clone [https://github.com/votre-username/echiquier-martinerois.git](https://github.com/votre-username/echiquier-martinerois.git)
+    cd echiquier-martinerois
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Installation des dépendances**
+    ```bash
+    npm install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Variables d'environnement**
+    Créer un fichier `.env.local` à la racine du projet. Ce fichier est ignoré par Git. Renseigner les clés suivantes :
+    ```env
+    # Sanity Configuration
+    NEXT_PUBLIC_SANITY_PROJECT_ID=votre_id_projet
+    NEXT_PUBLIC_SANITY_DATASET=production
+
+    # EmailJS Configuration
+    NEXT_PUBLIC_EMAILJS_SERVICE_ID=votre_service_id
+    NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=votre_template_id
+    NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=votre_cle_publique
+    ```
+
+4.  **Lancement du serveur de développement**
+    ```bash
+    npm run dev
+    ```
+    L'application sera accessible sur `http://localhost:3000`.
+
+## Fonctionnalités Clés
+
+* **Atelier Interactif** : Analyse de positions en temps réel avec le moteur Stockfish intégré.
+* **Gestion Dynamique** : Mise à jour simplifiée des tarifs, des tournois et des actualités via le CMS Sanity.
+* **Formulaire de Contact** : Intégration directe avec EmailJS pour la gestion des demandes d'adhésion.
+* **Optimisation SEO** : Utilisation des métadonnées Next.js pour assurer la visibilité du club.
+
+## Sécurité et Publication
+
+Ce dépôt est configuré pour un usage public sous réserve de respecter les consignes suivantes :
+* Ne jamais inclure de fichiers `.env` dans les commits (configuré dans `.gitignore`).
+* Les clés d'API doivent être renseignées via les secrets de votre plateforme d'hébergement (Vercel, Netlify, etc.) lors du déploiement en production.
