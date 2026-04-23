@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useActionState } from 'react'
-import emailjs from '@emailjs/browser'
+import { useActionState } from 'react'
 
 type FormState = { success: boolean; error: string | null } | null
 
@@ -11,17 +10,19 @@ async function sendEmail(_prev: FormState, formData: FormData): Promise<FormStat
   const sujet = formData.get('sujet') as string
   const message = formData.get('message') as string
   const rgpd = formData.get('rgpd')
+  const honeypot = formData.get('_trap') as string
 
   if (!rgpd) return { success: false, error: 'Vous devez accepter le traitement de vos données.' }
   if (!nom || !email || !message) return { success: false, error: 'Veuillez remplir tous les champs obligatoires.' }
 
   try {
-    await emailjs.send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? 'service_id',
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? 'template_id',
-      { from_name: nom, from_email: email, subject: sujet || 'Contact site web', message },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? 'public_key'
-    )
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nom, email, sujet, message, honeypot }),
+    })
+    const data = await res.json()
+    if (!res.ok) return { success: false, error: data.error ?? "L'envoi a échoué." }
     return { success: true, error: null }
   } catch {
     return { success: false, error: "L'envoi a échoué. Veuillez réessayer ou nous contacter directement par email." }
@@ -54,6 +55,16 @@ export function ContactForm() {
 
   return (
     <form action={action} className="space-y-5" noValidate>
+      {/* Honeypot — caché aux humains, piège les bots */}
+      <input
+        type="text"
+        name="_trap"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
       {/* Nom */}
       <div>
         <label htmlFor="nom" className="block text-sm font-semibold text-noir mb-1">
@@ -64,6 +75,7 @@ export function ContactForm() {
           name="nom"
           type="text"
           required
+          maxLength={100}
           className="w-full border border-gris-clair focus:border-red outline-none px-4 py-3 text-noir bg-blanc transition-colors"
           placeholder="Jean Dupont"
         />
@@ -79,6 +91,7 @@ export function ContactForm() {
           name="email"
           type="email"
           required
+          maxLength={254}
           className="w-full border border-gris-clair focus:border-red outline-none px-4 py-3 text-noir bg-blanc transition-colors"
           placeholder="jean@exemple.com"
         />
@@ -108,6 +121,7 @@ export function ContactForm() {
           name="message"
           required
           rows={6}
+          maxLength={5000}
           className="w-full border border-gris-clair focus:border-red outline-none px-4 py-3 text-noir bg-blanc transition-colors resize-none"
           placeholder="Votre message…"
         />
