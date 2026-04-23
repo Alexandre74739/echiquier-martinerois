@@ -78,11 +78,24 @@ export async function fetchPuzzleByLevel(niveau: NiveauPuzzle): Promise<LichessP
   }
 }
 
-function parseLichessResponse(data: any): LichessPuzzle | null {
+type LichessApiPuzzle = {
+  id: string
+  solution: string[]
+  rating: number
+  themes: string[]
+  initialPly?: number
+}
+
+type LichessApiResponse = {
+  puzzle: LichessApiPuzzle
+  game: { pgn?: string }
+}
+
+function parseLichessResponse(data: unknown): LichessPuzzle | null {
   try {
-    const { puzzle, game } = data
+    const { puzzle, game } = data as LichessApiResponse
     const sanMoves = extractSanMoves(game?.pgn ?? '')
-    const firstMove = puzzle.solution?.[0] as string | undefined
+    const firstMove = puzzle.solution?.[0]
     if (!firstMove) return null
 
     const from = firstMove.slice(0, 2)

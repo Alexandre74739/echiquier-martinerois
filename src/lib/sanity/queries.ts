@@ -1,11 +1,12 @@
 import { sanityClient, isSanityConfigured, urlFor } from './client'
+import type { SanityPost, SanityTournoi } from '@/src/types/sanity'
 
-function resolveImage(image: any): string | null {
-  if (!image?.asset) return null
+function resolveImage(image: unknown): string | null {
+  if (!image || typeof image !== 'object' || !('asset' in image)) return null
   return urlFor(image).width(800).url()
 }
 
-export async function getLatestPosts(limit = 6) {
+export async function getLatestPosts(limit = 6): Promise<SanityPost[]> {
   if (!isSanityConfigured()) return []
   const posts = await sanityClient.fetch(
     `*[_type == "post"] | order(publishedAt desc) [0...$limit] {
@@ -14,7 +15,7 @@ export async function getLatestPosts(limit = 6) {
     }`,
     { limit: limit - 1 }
   )
-  return posts.map((p: any) => ({ ...p, mainImage: resolveImage(p.mainImage) }))
+  return (posts as SanityPost[]).map((p) => ({ ...p, mainImage: resolveImage(p.mainImage) }))
 }
 
 export async function getPostBySlug(slug: string) {
@@ -44,7 +45,7 @@ export async function getTournaments(limit = 10) {
     }`,
     { limit: limit - 1 }
   )
-  return tournois.map((t: any) => ({ ...t, poster: resolveImage(t.poster) }))
+  return (tournois as SanityTournoi[]).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
 }
 
 export async function getPricing() {

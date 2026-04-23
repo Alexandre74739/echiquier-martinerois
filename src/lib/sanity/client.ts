@@ -1,7 +1,6 @@
 import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SanityImageSource = any
+import { createImageUrlBuilder } from '@sanity/image-url'
+import type { SanityImageSource, ImageUrlBuilder } from '@sanity/image-url'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
@@ -10,7 +9,6 @@ export function isSanityConfigured(): boolean {
   return !!projectId
 }
 
-/* Le client n'est instancié que si Sanity est configuré */
 let _client: ReturnType<typeof createClient> | null = null
 
 function getClient() {
@@ -30,17 +28,18 @@ export const sanityClient = new Proxy({} as ReturnType<typeof createClient>, {
   get(_target, prop) {
     const client = getClient()
     if (!client) return () => Promise.resolve(null)
-    const value = (client as any)[prop]
+    /* Double cast nécessaire : SanityClient n'a pas d'index signature */
+    const value = (client as unknown as Record<string | symbol, unknown>)[prop]
     /* Sans .bind(), `this` est perdu à l'appel et le fetch plante silencieusement */
-    return typeof value === 'function' ? value.bind(client) : value
+    return typeof value === 'function'
+      ? (value as (...args: unknown[]) => unknown).bind(client)
+      : value
   },
 })
 
-const _builder = projectId
-  ? imageUrlBuilder(createClient({ projectId, dataset, apiVersion: '2024-01-01', useCdn: false }))
-  : null
+const _builder = projectId ? createImageUrlBuilder({ projectId, dataset }) : null
 
-export function urlFor(source: SanityImageSource) {
-  if (!_builder) return { url: () => null } as any
+export function urlFor(source: SanityImageSource): ImageUrlBuilder {
+  if (!_builder) return { url: () => null } as unknown as ImageUrlBuilder
   return _builder.image(source)
 }
