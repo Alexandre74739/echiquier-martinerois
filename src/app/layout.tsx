@@ -20,10 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères",
-    template: "%s | L'Échiquier Martinérois",
-  },
+  title: "L'Échiquier Martinérois",
   description:
     "Club d'échecs à Saint-Martin-d'Hères. Cours pour enfants, adolescents et adultes tous les mardis. Rejoignez notre communauté passionnée d'échecs.",
   keywords: [

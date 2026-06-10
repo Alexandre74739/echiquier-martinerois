@@ -18,23 +18,11 @@ const difficultyMap: Record<NiveauPuzzle, string> = {
   adulte:   'hardest',
 }
 
-/* IDs de secours curatés (licence CC0) — utilisés si l'API Lichess refuse l'accès anonyme */
+/* IDs de secours vérifiés (licence CC0) — utilisés si l'API Lichess est indisponible */
 const fallbackIds: Record<NiveauPuzzle, string[]> = {
-  débutant: [
-    '00008','0009l','000Qc','000vB','001jb','0020r','003Rc','003Si','003VT','004kY',
-    '005Bt','005kH','006Dy','006Vu','007BL','007xF','008Ck','008pT','009CX','009zJ',
-    '00aGv','00bNm','00cPq','00dRs','00eLt','00fMu','00gNv','00hOw','00iPx','00jQy',
-  ],
-  ado: [
-    '00GQ3','00I3U','00OBC','00Pzv','00RjM','00Rrz','00SCC','00Shi','00SxE','00T4q',
-    '00Tef','00Ufg','00VGh','00WIj','00XJk','00YKl','00ZLm','010Mn','011No','012Op',
-    '013Pq','014Qr','015Rs','016St','017Tu','018Uv','019Vw','01aWx','01bXy','01cYz',
-  ],
-  adulte: [
-    '00AhQ','00K3f','00L9h','00MBp','00MH0','00N0T','00Ohs','00PBO','00Qpq','00R1h',
-    '00S2i','00T3j','00U4k','00V5l','00W6m','00X7n','00Y8o','00Z9p','010aq','011br',
-    '012cs','013dt','014eu','015fv','016gw','017hx','018iy','019jz','01aka','01blb',
-  ],
+  débutant: ['00008','0009l','000Qc','000vB','001jb','0020r','003Rc','003Si','003VT','004kY'],
+  ado:      ['00GQ3','00I3U','00OBC','00Pzv','00RjM','00Rrz','00SCC','00Shi','00SxE','00T4q'],
+  adulte:   ['00AhQ','00K3f','00L9h','00MBp','00MH0','00N0T','00Ohs','00PBO','00Qpq','00R1h'],
 }
 
 export async function fetchDailyPuzzle(): Promise<LichessPuzzle | null> {
@@ -51,7 +39,7 @@ export async function fetchDailyPuzzle(): Promise<LichessPuzzle | null> {
 }
 
 export async function fetchPuzzleByLevel(niveau: NiveauPuzzle): Promise<LichessPuzzle | null> {
-  /* 1. Essaie l'API anonyme Lichess — donne des puzzles vraiment illimités */
+  /* 1. Essaie avec filtre de difficulté (fonctionne si le token est accepté) */
   try {
     const res = await fetch(
       `https://lichess.org/api/puzzle/next?difficulty=${difficultyMap[niveau]}`,
@@ -61,9 +49,21 @@ export async function fetchPuzzleByLevel(niveau: NiveauPuzzle): Promise<LichessP
       const puzzle = parseLichessResponse(await res.json())
       if (puzzle) return puzzle
     }
-  } catch { /* ignore, utilise le fallback */ }
+  } catch { /* ignore */ }
 
-  /* 2. Fallback : liste locale d'IDs curatés */
+  /* 2. Puzzle aléatoire sans filtre (toujours disponible pour les anonymes) */
+  try {
+    const res = await fetch(
+      'https://lichess.org/api/puzzle/next',
+      { headers: { Accept: 'application/json' }, cache: 'no-store' },
+    )
+    if (res.ok) {
+      const puzzle = parseLichessResponse(await res.json())
+      if (puzzle) return puzzle
+    }
+  } catch { /* ignore */ }
+
+  /* 3. Fallback : IDs vérifiés en dur */
   const ids = fallbackIds[niveau]
   const id = ids[Math.floor(Math.random() * ids.length)]
   try {
@@ -137,9 +137,19 @@ function parseLichessResponse(data: LichessApiResponse): LichessPuzzle | null {
 }
 
 function extractSanMoves(pgn: string): string[] {
-  return pgn
-    .replace(/\{[^}]*\}/g, ' ')
-    .replace(/\([^)]*\)/g, ' ')
+  // Supprime les variantes imbriquées et commentaires en suivant la profondeur
+  let main = ''
+  let parenDepth = 0
+  let inComment = false
+  for (let i = 0; i < pgn.length; i++) {
+    const ch = pgn[i]
+    if (inComment) { if (ch === '}') inComment = false; continue }
+    if (ch === '{') { inComment = true; continue }
+    if (ch === '(') { parenDepth++; continue }
+    if (ch === ')') { parenDepth--; continue }
+    if (parenDepth === 0) main += ch
+  }
+  return main
     .replace(/\$\d+/g, ' ')
     .replace(/[?!]+/g, ' ')
     .replace(/\d+\.\.\./g, ' ')

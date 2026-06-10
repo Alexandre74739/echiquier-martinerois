@@ -7,7 +7,6 @@ import type { SanityTournoi } from "@/src/types/sanity";
 export const revalidate = 60;
 
 export const metadata = {
-  title: "Tournois",
   description:
     "Retrouvez tous les tournois d'échecs organisés ou recommandés par L'Échiquier Martinérois.",
 };

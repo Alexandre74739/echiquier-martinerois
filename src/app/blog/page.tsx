@@ -6,7 +6,6 @@ import type { SanityPost } from "@/src/types/sanity";
 export const revalidate = 60;
 
 export const metadata = {
-  title: "Blog & Actualités",
   description:
     "Suivez les actualités du club d'échecs L'Échiquier Martinérois : tournois, résultats, événements.",
 };

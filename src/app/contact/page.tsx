@@ -2,7 +2,6 @@ import { ContactForm } from './ContactForm'
 import { ContactInfos } from './_components/ContactInfos'
 
 export const metadata = {
-  title: 'Contact',
   description: "Contactez le club d'échecs L'Échiquier Martinérois pour toute question sur les cours, la cotisation ou les tournois.",
 }
 

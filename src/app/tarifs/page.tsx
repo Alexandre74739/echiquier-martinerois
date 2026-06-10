@@ -5,7 +5,6 @@ import { FFESection } from "./_components/FFESection";
 import { FAQSection } from "./_components/FAQSection";
 
 export const metadata = {
-  title: "Tarifs & Licences",
   description:
     "Découvrez les tarifs d'adhésion au club d'échecs L'Échiquier Martinérois et les informations sur la licence FFE.",
 };

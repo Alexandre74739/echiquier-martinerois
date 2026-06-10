@@ -1,7 +1,6 @@
 import { OpenCookieBannerLink } from '@/src/components/layout/OpenCookieBannerLink'
 
 export const metadata = {
-  title: 'Mentions légales & Politique de confidentialité',
   description: "Mentions légales, politique de confidentialité et informations RGPD du site de l'Échiquier Martinérois.",
 }
 

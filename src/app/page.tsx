@@ -10,7 +10,6 @@ import { SectionChiffres } from "./_sections/SectionChiffres";
 import { SectionCTA } from "./_sections/SectionCTA";
 
 export const metadata = {
-  title: "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères",
   description:
     "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours pour enfants, ados et adultes tous les mardis. Rejoignez L'Échiquier Martinérois !",
 };

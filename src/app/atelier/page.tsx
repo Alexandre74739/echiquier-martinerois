@@ -2,7 +2,6 @@ import { fetchDailyPuzzle } from "@/src/lib/lichess";
 import { AtelierClient } from "./AtelierClient";
 
 export const metadata = {
-  title: "Atelier",
   description:
     "Échiquier libre, puzzles par niveau et analyse Stockfish pour progresser aux échecs.",
 };
