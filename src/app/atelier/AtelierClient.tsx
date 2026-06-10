@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import type { LichessPuzzle } from "@/src/lib/lichess";
-
 const ChessBoardClient = dynamic(
   () =>
     import("./ChessBoardClient").then((m) => ({ default: m.ChessBoardClient })),
@@ -37,11 +35,7 @@ const TABS: { id: Tab; icon: string; label: string; sub: string }[] = [
   { id: "analyse", icon: "♜", label: "Analyse", sub: "Stockfish 18" },
 ];
 
-export function AtelierClient({
-  dailyPuzzle,
-}: {
-  dailyPuzzle: LichessPuzzle | null;
-}) {
+export function AtelierClient() {
   const [tab, setTab] = useState<Tab>("puzzles");
 
   return (
@@ -93,7 +87,7 @@ export function AtelierClient({
               title="Puzzles"
               desc="Choisissez votre niveau et résolvez des puzzles sélectionnés depuis la base Lichess (licence CC0)."
             />
-            <PuzzleClient initialPuzzle={dailyPuzzle} />
+            <PuzzleClient />
           </section>
         )}
 

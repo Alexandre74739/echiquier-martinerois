@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Chessboard } from 'react-chessboard'
 import { Chess } from 'chess.js'
 import { boardOptions } from './_components/boardOptions'
@@ -14,6 +14,7 @@ type Analyse = { depth: number; score: number | null; mate: number | null; bestM
 export function StockfishClient() {
   const [game, setGame] = useState(() => new Chess())
   const [orientation, setOrientation] = useState<'white' | 'black'>('white')
+  const [selected, setSelected] = useState<string | null>(null)
   const [analyse, setAnalyse] = useState<Analyse | null>(null)
   const [analysing, setAnalysing] = useState(false)
   const [depth, setDepth] = useState(15)
@@ -54,27 +55,62 @@ export function StockfishClient() {
 
   const stopAnalysis = useCallback(() => { workerRef.current?.postMessage('stop'); setAnalysing(false) }, [])
 
-  const makeMove = useCallback(({ sourceSquare: from, targetSquare: to }: { sourceSquare: string | null; targetSquare: string | null }) => {
-    if (!from || !to) return false
+  const applyMove = useCallback((from: string, to: string): boolean => {
     const g = new Chess(game.fen())
     try {
       if (!g.move({ from, to, promotion: 'q' })) return false
-      setGame(g); setAnalyse(null); return true
+      setGame(g); setAnalyse(null); setSelected(null); return true
     } catch { return false }
   }, [game])
 
+  const onSquareClick = useCallback(({ square, piece }: { square: string; piece: { pieceType: string } | null }) => {
+    if (selected) {
+      if (selected === square) { setSelected(null); return }
+      if (applyMove(selected, square)) return
+      if (piece && game.moves({ square: square as never, verbose: true }).length > 0) {
+        setSelected(square)
+      } else {
+        setSelected(null)
+      }
+    } else if (piece && game.moves({ square: square as never, verbose: true }).length > 0) {
+      setSelected(square)
+    }
+  }, [selected, game, applyMove])
+
+  const squareStyles = useMemo<Record<string, React.CSSProperties>>(() => {
+    const styles: Record<string, React.CSSProperties> = {}
+    if (!selected) return styles
+    styles[selected] = { backgroundColor: 'rgba(30,120,255,0.5)' }
+    const dests = game.moves({ square: selected as never, verbose: true })
+    for (const m of dests) {
+      const hasPiece = !!game.get(m.to as never)
+      styles[m.to] = hasPiece
+        ? { backgroundColor: 'rgba(30,120,255,0.15)', outline: '3px solid rgba(30,120,255,0.5)', outlineOffset: '-3px' }
+        : { background: 'radial-gradient(circle, rgba(30,120,255,0.45) 28%, transparent 28%)' }
+    }
+    return styles
+  }, [selected, game])
+
   const loadFen = () => {
-    try { const g = new Chess(fenInput.trim()); setGame(g); setAnalyse(null); setFenError(null) }
+    try { const g = new Chess(fenInput.trim()); setGame(g); setAnalyse(null); setFenError(null); setSelected(null) }
     catch { setFenError('FEN invalide.') }
   }
 
-  const reset = () => { setGame(new Chess()); setAnalyse(null); setFenInput(START_FEN); setFenError(null) }
+  const reset = () => { setGame(new Chess()); setAnalyse(null); setFenInput(START_FEN); setFenError(null); setSelected(null) }
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       <div className="flex flex-col items-center gap-4 shrink-0">
         <div className="w-full max-w-120">
-          <Chessboard options={{ ...boardOptions, position: game.fen(), boardOrientation: orientation, onPieceDrop: makeMove }} />
+          <Chessboard options={{
+            ...boardOptions,
+            position: game.fen(),
+            boardOrientation: orientation,
+            squareStyles,
+            onSquareClick,
+            onPieceDrop: ({ sourceSquare: from, targetSquare: to }) =>
+              from && to ? applyMove(from, to) : false,
+          }} />
         </div>
         <div className="flex gap-2 w-full max-w-120">
           <button onClick={reset} className="cursor-pointer flex-1 bg-noir hover:bg-gris-fonce text-blanc py-3 font-display text-sm tracking-wider transition-colors">↺ Réinitialiser</button>

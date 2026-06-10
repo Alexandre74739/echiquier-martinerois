@@ -1,4 +1,3 @@
-import { fetchDailyPuzzle } from "@/src/lib/lichess";
 import { AtelierClient } from "./AtelierClient";
 
 export const metadata = {
@@ -6,9 +5,7 @@ export const metadata = {
     "Échiquier libre, puzzles par niveau et analyse Stockfish pour progresser aux échecs.",
 };
 
-export default async function AtelierPage() {
-  const dailyPuzzle = await fetchDailyPuzzle().catch(() => null);
-
+export default function AtelierPage() {
   return (
     <div className="bg-blanc min-h-screen">
       {/* En-tête */}
@@ -29,7 +26,7 @@ export default async function AtelierPage() {
         </div>
       </div>
 
-      <AtelierClient dailyPuzzle={dailyPuzzle} />
+      <AtelierClient />
     </div>
   );
 }

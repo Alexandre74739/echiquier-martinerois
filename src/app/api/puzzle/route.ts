@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import {
   fetchPuzzleByLevel,
-  fetchDailyPuzzle,
   type NiveauPuzzle,
 } from '@/src/lib/lichess'
 
@@ -35,7 +34,6 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url)
   const niveauParam = searchParams.get('niveau')
-  const daily = searchParams.get('daily') === '1'
 
   /* Validation runtime du paramètre niveau */
   if (niveauParam && !NIVEAUX_VALIDES.includes(niveauParam as NiveauPuzzle)) {
@@ -46,21 +44,15 @@ export async function GET(request: NextRequest) {
   }
 
   const niveau = (niveauParam as NiveauPuzzle) ?? 'débutant'
-
-  const puzzle = daily
-    ? await fetchDailyPuzzle()
-    : await fetchPuzzleByLevel(niveau)
+  const puzzle = await fetchPuzzleByLevel(niveau)
 
   if (!puzzle) {
     return NextResponse.json({ puzzle: null }, { status: 502 })
   }
 
+  // Pas de cache CDN : chaque appel doit renvoyer un puzzle différent
   return NextResponse.json(
     { puzzle },
-    {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-      },
-    },
+    { headers: { 'Cache-Control': 'no-store' } },
   )
 }
