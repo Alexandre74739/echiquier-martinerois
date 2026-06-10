@@ -1,4 +1,5 @@
 import { createClient } from '@sanity/client'
+import type { QueryParams } from '@sanity/client'
 import { createImageUrlBuilder } from '@sanity/image-url'
 import type { SanityImageSource, ImageUrlBuilder } from '@sanity/image-url'
 
@@ -11,7 +12,7 @@ export function isSanityConfigured(): boolean {
 
 let _client: ReturnType<typeof createClient> | null = null
 
-function getClient() {
+function getClient(): ReturnType<typeof createClient> | null {
   if (!projectId) return null
   if (!_client) {
     _client = createClient({
@@ -24,22 +25,19 @@ function getClient() {
   return _client
 }
 
-export const sanityClient = new Proxy({} as ReturnType<typeof createClient>, {
-  get(_target, prop) {
+export const sanityClient = {
+  fetch: <R>(query: string, params?: QueryParams): Promise<R | null> => {
     const client = getClient()
-    if (!client) return () => Promise.resolve(null)
-    /* Double cast nécessaire : SanityClient n'a pas d'index signature */
-    const value = (client as unknown as Record<string | symbol, unknown>)[prop]
-    /* Sans .bind(), `this` est perdu à l'appel et le fetch plante silencieusement */
-    return typeof value === 'function'
-      ? (value as (...args: unknown[]) => unknown).bind(client)
-      : value
+    if (!client) return Promise.resolve(null)
+    /* On sépare les deux surcharges pour satisfaire les types @sanity/client */
+    if (params) return client.fetch<R>(query, params)
+    return client.fetch<R>(query)
   },
-})
+}
 
 const _builder = projectId ? createImageUrlBuilder({ projectId, dataset }) : null
 
 export function urlFor(source: SanityImageSource): ImageUrlBuilder {
-  if (!_builder) return { url: () => null } as unknown as ImageUrlBuilder
+  if (!_builder) throw new Error('Sanity image URL builder non initialisé')
   return _builder.image(source)
 }

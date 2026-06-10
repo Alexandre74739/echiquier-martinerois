@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTournaments } from "@/src/lib/sanity/queries";
 import { IconLocation } from "@/src/components/ui/Icons";
+import type { SanityTournoi } from "@/src/types/sanity";
 
 export const revalidate = 60;
 
@@ -42,7 +43,7 @@ export default async function TournoisPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {tournois.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tournois.map((t: any) => (
+              {tournois.map((t) => (
                 <TournoisCard key={t._id} tournoi={t} />
               ))}
             </div>
@@ -125,9 +126,11 @@ const niveauColor: Record<string, string> = {
   open: "bg-noir",
 };
 
-function TournoisCard({ tournoi }: { tournoi: any }) {
+function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
   const date = tournoi.date ? new Date(tournoi.date) : null;
   const passe = date ? date < new Date() : false;
+  const safeUrl =
+    tournoi.registrationUrl?.startsWith("http") ? tournoi.registrationUrl : null;
 
   return (
     <div
@@ -184,9 +187,9 @@ function TournoisCard({ tournoi }: { tournoi: any }) {
             {tournoi.description}
           </p>
         )}
-        {tournoi.registrationUrl && !passe && (
+        {safeUrl && !passe && (
           <a
-            href={tournoi.registrationUrl}
+            href={safeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block border border-red text-red hover:bg-red hover:text-blanc px-4 py-2 text-sm font-display tracking-wider transition-colors"

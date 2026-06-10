@@ -18,6 +18,7 @@ export function StockfishClient() {
   const [analysing, setAnalysing] = useState(false)
   const [depth, setDepth] = useState(15)
   const [fenInput, setFenInput] = useState(START_FEN)
+  const [fenError, setFenError] = useState<string | null>(null)
   const workerRef = useRef<Worker | null>(null)
   const ref = useRef<Partial<Analyse>>({})
 
@@ -63,11 +64,11 @@ export function StockfishClient() {
   }, [game])
 
   const loadFen = () => {
-    try { const g = new Chess(fenInput.trim()); setGame(g); setAnalyse(null) }
-    catch { alert('FEN invalide.') }
+    try { const g = new Chess(fenInput.trim()); setGame(g); setAnalyse(null); setFenError(null) }
+    catch { setFenError('FEN invalide.') }
   }
 
-  const reset = () => { setGame(new Chess()); setAnalyse(null); setFenInput(START_FEN) }
+  const reset = () => { setGame(new Chess()); setAnalyse(null); setFenInput(START_FEN); setFenError(null) }
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -79,7 +80,10 @@ export function StockfishClient() {
           <button onClick={reset} className="cursor-pointer flex-1 bg-noir hover:bg-gris-fonce text-blanc py-3 font-display text-sm tracking-wider transition-colors">↺ Réinitialiser</button>
           <button onClick={() => setOrientation((o) => o === 'white' ? 'black' : 'white')} className="cursor-pointer flex-1 bg-gris-clair hover:bg-gris hover:text-blanc text-noir py-3 font-display text-sm tracking-wider transition-colors">⇅ Retourner</button>
         </div>
-        <FenInput value={fenInput} onChange={setFenInput} onLoad={loadFen} />
+        <FenInput value={fenInput} onChange={(v) => { setFenInput(v); setFenError(null) }} onLoad={loadFen} />
+        {fenError && (
+          <p role="alert" className="w-full max-w-120 text-sm text-red px-1">{fenError}</p>
+        )}
       </div>
 
       <AnalysisPanel

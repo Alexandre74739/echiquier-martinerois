@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IconChevronRight } from "@/src/components/ui/Icons";
+import type { SanityTournoi } from "@/src/types/sanity";
 
 const niveauColor: Record<string, string> = {
   débutant: "bg-green-700",
@@ -9,7 +10,7 @@ const niveauColor: Record<string, string> = {
   open: "bg-noir",
 };
 
-function TournoisCard({ tournoi }: { tournoi: any }) {
+function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
   const date = tournoi.date ? new Date(tournoi.date) : null;
   return (
     <div className="bg-blanc border-t-4 border-red overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
@@ -66,7 +67,7 @@ function PlaceholderTournois() {
   );
 }
 
-export function SectionTournois({ tournois }: { tournois: any[] }) {
+export function SectionTournois({ tournois }: { tournois: SanityTournoi[] }) {
   return (
     <section className="bg-blanc py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,26 +1,31 @@
 import { sanityClient, isSanityConfigured, urlFor } from './client'
-import type { SanityPost, SanityTournoi } from '@/src/types/sanity'
+import type { SanityPost, SanityTournoi, SanityPricing } from '@/src/types/sanity'
+import type { SanityImageObject } from '@sanity/image-url'
 
-function resolveImage(image: unknown): string | null {
-  if (!image || typeof image !== 'object' || !('asset' in image)) return null
+/** Type interne pour les documents Sanity avant résolution des images */
+type RawSanityPost = Omit<SanityPost, 'mainImage'> & { mainImage: SanityImageObject | null }
+type RawSanityTournoi = Omit<SanityTournoi, 'poster'> & { poster: SanityImageObject | null }
+
+function resolveImage(image: SanityImageObject | null): string | null {
+  if (!image?.asset) return null
   return urlFor(image).width(800).url()
 }
 
 export async function getLatestPosts(limit = 6): Promise<SanityPost[]> {
   if (!isSanityConfigured()) return []
-  const posts = await sanityClient.fetch(
+  const posts = await sanityClient.fetch<RawSanityPost[]>(
     `*[_type == "post"] | order(publishedAt desc) [0...$limit] {
       _id, title, slug, publishedAt, excerpt,
       "mainImage": mainImage
     }`,
     { limit: limit - 1 }
   )
-  return (posts as SanityPost[]).map((p) => ({ ...p, mainImage: resolveImage(p.mainImage) }))
+  return (posts ?? []).map((p) => ({ ...p, mainImage: resolveImage(p.mainImage) }))
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
   if (!isSanityConfigured()) return null
-  const post = await sanityClient.fetch(
+  const post = await sanityClient.fetch<RawSanityPost>(
     `*[_type == "post" && slug.current == $slug][0] {
       _id, title, slug, publishedAt, excerpt, body, categories,
       "mainImage": mainImage
@@ -31,24 +36,28 @@ export async function getPostBySlug(slug: string) {
   return { ...post, mainImage: resolveImage(post.mainImage) }
 }
 
-export async function getAllPostSlugs() {
+export async function getAllPostSlugs(): Promise<{ slug: string }[]> {
   if (!isSanityConfigured()) return []
-  return sanityClient.fetch(`*[_type == "post"]{ "slug": slug.current }`)
+  return (await sanityClient.fetch<{ slug: string }[]>(
+    `*[_type == "post"]{ "slug": slug.current }`
+  )) ?? []
 }
 
-export async function getTournaments(limit = 10) {
+export async function getTournaments(limit = 10): Promise<SanityTournoi[]> {
   if (!isSanityConfigured()) return []
-  const tournois = await sanityClient.fetch(
+  const tournois = await sanityClient.fetch<RawSanityTournoi[]>(
     `*[_type == "tournament"] | order(date asc) [0...$limit] {
       _id, title, date, location, level, description, registrationUrl,
       "poster": poster
     }`,
     { limit: limit - 1 }
   )
-  return (tournois as SanityTournoi[]).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
+  return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
 }
 
-export async function getPricing() {
+export async function getPricing(): Promise<SanityPricing | null> {
   if (!isSanityConfigured()) return null
-  return sanityClient.fetch(`*[_type == "pricing"][0]{ title, tiers }`)
+  return sanityClient.fetch<SanityPricing>(
+    `*[_type == "pricing"][0]{ title, tiers }`
+  )
 }

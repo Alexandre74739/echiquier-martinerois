@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getLatestPosts } from "@/src/lib/sanity/queries";
+import type { SanityPost } from "@/src/types/sanity";
 
 export const revalidate = 60;
 
@@ -45,12 +46,8 @@ export default async function BlogPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {articles.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {articles.map((article: any, i: number) => (
-                <ArticleCard
-                  key={article._id}
-                  article={article}
-                  featured={i === 0}
-                />
+              {articles.map((article, i) => (
+                <ArticleCard key={article._id} article={article} featured={i === 0} />
               ))}
             </div>
           ) : (
@@ -66,7 +63,7 @@ function ArticleCard({
   article,
   featured = false,
 }: {
-  article: any;
+  article: SanityPost;
   featured?: boolean;
 }) {
   const date = article.publishedAt ? new Date(article.publishedAt) : null;
@@ -128,7 +125,7 @@ function ArticleCard({
 
   return (
     <Link href={`/blog/${article.slug.current}`} className="group block">
-      <article className="border-t-4 border-gris-clair hover:border-red transition-colors bg-blanc hover:shadow-lg transition-shadow">
+      <article className="border-t-4 border-gris-clair hover:border-red bg-blanc hover:shadow-lg transition-all">
         {article.mainImage ? (
           <div className="relative h-48 overflow-hidden">
             <Image
@@ -145,7 +142,7 @@ function ArticleCard({
         )}
         <div className="p-6">
           <div className="flex flex-wrap gap-2 mb-3">
-            {article.categories?.map((cat: string) => (
+            {article.categories?.map((cat) => (
               <span
                 key={cat}
                 className="text-xs bg-gris-clair text-gris px-2 py-0.5 font-display tracking-wider"

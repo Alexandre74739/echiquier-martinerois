@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { OpenCookieBannerLink } from '@/src/components/layout/OpenCookieBannerLink'
 
 export const metadata = {
   title: 'Mentions légales & Politique de confidentialité',
@@ -67,8 +67,10 @@ export default function MentionsLegalesPage() {
               <li>Contenu du message</li>
             </ul>
             <p>
-              Ces données sont utilisées <strong>uniquement</strong> pour répondre à votre demande et ne sont jamais
-              transmises à des tiers.
+              Ces données sont utilisées <strong>uniquement</strong> pour répondre à votre demande.
+              Elles transitent par le service d'envoi d'emails <strong>EmailJS</strong> (sous-traitant),
+              soumis aux Clauses Contractuelles Types de l'Union européenne, et ne sont pas revendues
+              ni utilisées à d'autres fins.
             </p>
 
             <h3>Base légale</h3>
@@ -100,17 +102,14 @@ export default function MentionsLegalesPage() {
             <p>Ce site utilise uniquement :</p>
             <ul>
               <li>
-                <strong>Cookie de préférences</strong> (nécessaire) : stocké dans <code>localStorage </code>
-                pour mémoriser vos choix de consentement. Aucune donnée n'est envoyée à des tiers.
-              </li>
-              <li>
-                <strong>Cookies analytiques</strong> (optionnels) : mesure d'audience anonyme,
-                activés uniquement avec votre accord.
+                <strong>Cookie de préférences</strong> (nécessaire) : enregistré dans un cookie
+                navigateur pour mémoriser votre accord. Aucune donnée n'est envoyée à des tiers.
               </li>
             </ul>
+            <p>Aucun cookie de suivi ou de mesure d'audience n'est utilisé sur ce site.</p>
             <p>
-              Vous pouvez modifier vos préférences à tout moment via le lien{' '}
-              <Link href="/" className="text-red hover:underline">« Gérer mes cookies »</Link>
+              Vous pouvez rouvrir cette information à tout moment via le bouton{' '}
+              <OpenCookieBannerLink />
               {' '}en bas de chaque page.
             </p>
           </Section>
@@ -130,7 +129,7 @@ export default function MentionsLegalesPage() {
           </Section>
 
           <p className="text-sm text-gris mt-10 pt-6 border-t border-gris-clair">
-            Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+            Dernière mise à jour : 10 juin 2026
           </p>
         </div>
       </div>

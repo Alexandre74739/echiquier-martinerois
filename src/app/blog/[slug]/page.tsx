@@ -61,7 +61,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
               </span>
             ))}
             {date && (
-              <time className="text-gris text-sm" dateTime={post.publishedAt}>
+              <time className="text-gris text-sm" dateTime={post.publishedAt ?? undefined}>
                 {date.toLocaleDateString("fr-FR", {
                   weekday: "long",
                   day: "numeric",

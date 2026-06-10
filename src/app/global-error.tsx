@@ -1,17 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
-
 export default function GlobalError({
-  error,
-  unstable_retry,
+  reset,
 }: {
   error: Error & { digest?: string }
-  unstable_retry: () => void
+  reset: () => void
 }) {
-  useEffect(() => {
-    console.error(error)
-  }, [error])
 
   return (
     <html lang="fr">
@@ -25,7 +19,7 @@ export default function GlobalError({
             Une erreur grave est survenue. Veuillez réessayer.
           </p>
           <button
-            onClick={unstable_retry}
+            onClick={reset}
             style={{ background: '#CC0000', color: '#fff', border: 'none', padding: '0.75rem 2rem', fontSize: '1rem', cursor: 'pointer' }}
           >
             Réessayer

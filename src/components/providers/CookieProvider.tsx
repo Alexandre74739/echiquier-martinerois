@@ -4,7 +4,6 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 type CookiePrefs = {
   necessary: true
-  analytics: boolean
 }
 
 type CookieCtx = {

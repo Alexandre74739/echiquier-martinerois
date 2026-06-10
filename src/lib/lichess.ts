@@ -91,9 +91,9 @@ type LichessApiResponse = {
   game: { pgn?: string }
 }
 
-function parseLichessResponse(data: unknown): LichessPuzzle | null {
+function parseLichessResponse(data: LichessApiResponse): LichessPuzzle | null {
   try {
-    const { puzzle, game } = data as LichessApiResponse
+    const { puzzle, game } = data
     const sanMoves = extractSanMoves(game?.pgn ?? '')
     const firstMove = puzzle.solution?.[0]
     if (!firstMove) return null

@@ -1,4 +1,5 @@
 import { PricingCard } from './PricingCard'
+import type { SanityPricing, SanityPricingTier } from '@/src/types/sanity'
 
 /* Ordre : Gratuit (gauche) → Enfant (centre, featured) → Adulte (droite) */
 const tarifsParDefaut = [
@@ -26,11 +27,11 @@ const tarifsParDefaut = [
   },
 ]
 
-export function PricingCards({ data }: { data: any }) {
+export function PricingCards({ data }: { data: SanityPricing | null }) {
   if (data?.tiers?.length) {
     return (
       <div className="grid md:grid-cols-3 gap-8 items-start pt-4">
-        {data.tiers.map((tier: any, i: number) => (
+        {data.tiers.map((tier: SanityPricingTier, i: number) => (
           <PricingCard
             key={tier.name}
             categorie={tier.name}

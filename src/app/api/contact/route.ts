@@ -2,6 +2,11 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const ALLOWED_ORIGINS = [
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://echiquier-martinerois.fr',
+  ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : []),
+]
+
 /* Rate limiting en mémoire (par IP, 5 req/min).
    Dans un environnement serverless, la Map est par instance — c'est la limite
    acceptable sans infrastructure Redis. */
@@ -19,7 +24,36 @@ function isAllowed(ip: string): boolean {
   return true
 }
 
+type ContactBody = {
+  nom?: string
+  email?: string
+  sujet?: string
+  message?: string
+  honeypot?: string
+}
+
+type EmailJSTemplateParams = {
+  from_name: string
+  from_email: string
+  subject: string
+  message: string
+}
+
+type EmailJSPayload = {
+  service_id: string
+  template_id: string
+  user_id: string
+  template_params: EmailJSTemplateParams
+  accessToken?: string
+}
+
 export async function POST(request: NextRequest) {
+  /* Validation de l'origine pour bloquer les requêtes cross-site */
+  const origin = request.headers.get('origin')
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return NextResponse.json({ error: 'Origine non autorisée.' }, { status: 403 })
+  }
+
   const ip =
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
 
@@ -30,14 +64,14 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  let body: Record<string, unknown>
+  let body: ContactBody
   try {
-    body = await request.json()
+    body = await request.json() as ContactBody
   } catch {
     return NextResponse.json({ error: 'Corps de requête invalide.' }, { status: 400 })
   }
 
-  const { nom, email, sujet, message, honeypot } = body as Record<string, string>
+  const { nom, email, sujet, message, honeypot } = body
 
   /* Honeypot : si un bot a rempli le champ caché, on feint le succès */
   if (honeypot) return NextResponse.json({ success: true })
@@ -65,7 +99,7 @@ export async function POST(request: NextRequest) {
   const serviceId  = process.env.EMAILJS_SERVICE_ID
   const templateId = process.env.EMAILJS_TEMPLATE_ID
   const publicKey  = process.env.EMAILJS_PUBLIC_KEY
-  const privateKey = process.env.EMAILJS_PRIVATE_KEY  // requis si "Use Private Key" est coché
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY
 
   if (!serviceId || !templateId || !publicKey) {
     console.error('[contact] Variables EmailJS manquantes côté serveur')
@@ -76,7 +110,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const payload: Record<string, unknown> = {
+    const payload: EmailJSPayload = {
       service_id:      serviceId,
       template_id:     templateId,
       user_id:         publicKey,
@@ -97,10 +131,10 @@ export async function POST(request: NextRequest) {
     })
 
     if (!res.ok) {
-      const body = await res.text().catch(() => '(impossible de lire la réponse)')
-      console.error(`[contact] EmailJS ${res.status}: ${body}`)
+      const text = await res.text().catch(() => '(impossible de lire la réponse)')
+      console.error(`[contact] EmailJS ${res.status}: ${text}`)
       return NextResponse.json(
-        { error: "L'envoi a échoué. Veuillez réessayer.", detail: body },
+        { error: "L'envoi a échoué. Veuillez réessayer." },
         { status: 502 },
       )
     }

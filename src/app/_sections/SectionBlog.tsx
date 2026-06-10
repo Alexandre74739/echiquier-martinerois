@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IconChevronRight } from "@/src/components/ui/Icons";
+import type { SanityPost } from "@/src/types/sanity";
 
-function ArticleCard({ article }: { article: any }) {
+function ArticleCard({ article }: { article: SanityPost }) {
   const date = article.publishedAt ? new Date(article.publishedAt) : null;
   return (
     <Link href={`/blog/${article.slug.current}`} className="group block">
@@ -60,7 +61,7 @@ const placeholders = [
   },
 ];
 
-export function SectionBlog({ articles }: { articles: any[] }) {
+export function SectionBlog({ articles }: { articles: SanityPost[] }) {
   return (
     <section className="bg-noir py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,17 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
-
 export default function Error({
-  error,
-  unstable_retry,
+  reset,
 }: {
   error: Error & { digest?: string }
-  unstable_retry: () => void
+  reset: () => void
 }) {
-  useEffect(() => {
-    console.error(error)
-  }, [error])
 
   return (
     <div className="min-h-[80vh] bg-noir text-blanc flex items-center justify-center px-4">
@@ -49,7 +43,7 @@ export default function Error({
 
         <div className="flex gap-4 justify-center">
           <button
-            onClick={unstable_retry}
+            onClick={reset}
             className="flex items-center gap-2 bg-red hover:bg-red-hover text-blanc px-6 py-3 font-display text-lg tracking-wider transition-colors"
           >
             <span aria-hidden="true">↺</span>
