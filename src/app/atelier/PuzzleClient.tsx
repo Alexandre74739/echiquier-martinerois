@@ -72,12 +72,14 @@ export function PuzzleClient() {
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sfRef = useRef<Worker | null>(null);
+  const loadPuzzleRef = useRef<(niv: NiveauPuzzle, attempt?: number) => void>(null as never);
 
   // Init Stockfish worker
   useEffect(() => {
     let w: Worker;
     try {
       w = new Worker("/stockfish.js");
+      w.onerror = () => { sfRef.current = null; };
       w.postMessage("uci");
       sfRef.current = w;
     } catch { /* stockfish indisponible, hint utilisera la solution */ }
@@ -113,7 +115,7 @@ export function PuzzleClient() {
         // Puzzle null (Lichess indisponible) : auto-retry 3 fois puis abandon
         if (!p) {
           if (attempt < 3) {
-            timerRef.current = setTimeout(() => loadPuzzle(niv, attempt + 1), 1200);
+            timerRef.current = setTimeout(() => loadPuzzleRef.current(niv, attempt + 1), 1200);
           } else {
             setStatus("playing"); // débloque le bouton "Nouveau puzzle"
           }
@@ -122,7 +124,7 @@ export function PuzzleClient() {
 
         // anti-doublon : jusqu'à 4 essais (après 4 essais, on affiche quand même)
         if (attempt < 4 && getSeenIds().has(p.id)) {
-          timerRef.current = setTimeout(() => loadPuzzle(niv, attempt + 1), 80);
+          timerRef.current = setTimeout(() => loadPuzzleRef.current(niv, attempt + 1), 80);
           return;
         }
 
@@ -149,9 +151,11 @@ export function PuzzleClient() {
     [],
   );
 
-  // Chargement initial
+  // Chargement initial + sync du ref récursif
   useEffect(() => {
-    loadPuzzle("débutant");
+    loadPuzzleRef.current = loadPuzzle;
+    // setTimeout(0) rend l'appel asynchrone → setState ne se produit pas dans le corps synchrone de l'effet
+    timerRef.current = setTimeout(() => loadPuzzle("débutant"), 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

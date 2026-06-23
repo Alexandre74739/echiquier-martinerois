@@ -14,9 +14,9 @@ const infoBar = [
 
 export function Hero() {
   return (
-    <section className="relative bg-noir min-h-screen flex flex-col overflow-hidden">
-      {/* Fond diagonal */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <section className="relative bg-noir min-h-[calc(100dvh-4rem)] flex flex-col overflow-hidden">
+      {/* Fond diagonal — masqué sur mobile */}
+      <div className="hidden sm:block absolute inset-0 pointer-events-none" aria-hidden="true">
         <div
           className="absolute right-0 top-0 h-full w-1/2 bg-gris-fonce"
           style={{ clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0% 100%)" }}
@@ -30,8 +30,8 @@ export function Hero() {
       {/* Contenu */}
       <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center py-24 lg:py-32">
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center w-full">
-          <div>
-            <div className="flex items-center gap-3 mb-8">
+          <div className="text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-3 mb-8">
               <div className="w-8 h-0.5 bg-red" />
               <span className="font-display text-base tracking-[0.35em] text-gris uppercase">
                 Club d'échecs · Saint-Martin-d'Hères · Grenoble
@@ -53,13 +53,13 @@ export function Hero() {
               </span>
             </h1>
 
-            <div className="mt-6 w-16 h-1 bg-red" />
+            <div className="mt-6 w-16 h-1 bg-red mx-auto sm:mx-0" />
             <p className="mt-6 text-gris text-lg max-w-lg leading-relaxed">
               Cours d'échecs pour enfants, adolescents et adultes tous niveaux.
               Rejoignez une communauté passionnée chaque mardi soir.
             </p>
 
-            <div className="flex flex-wrap gap-4 mt-10">
+            <div className="flex flex-wrap gap-4 mt-10 justify-center sm:justify-start">
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors animate-pulse-red"
@@ -76,7 +76,7 @@ export function Hero() {
           </div>
 
           <div className="hidden lg:flex justify-center">
-            <div className="relative w-72 h-80 xl:w-96 xl:h-[440px]">
+            <div className="relative w-80 h-96 xl:w-104 xl:h-120">
               <Image
                 src="/logo.png"
                 alt="Logo L'Échiquier Martinérois"
