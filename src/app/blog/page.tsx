@@ -2,12 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { getLatestPosts } from "@/src/lib/sanity/queries";
 import type { SanityPost } from "@/src/types/sanity";
+import { JsonLd } from "@/src/components/seo/JsonLd";
 
 export const revalidate = 60;
 
 export const metadata = {
+  title: "Blog & Actualités",
   description:
-    "Suivez les actualités du club d'échecs L'Échiquier Martinérois : tournois, résultats, événements.",
+    "Actualités du club d'échecs L'Échiquier Martinérois : tournois, résultats, événements et conseils pédagogiques pour progresser aux échecs.",
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/blog",
+  },
 };
 
 const categorieLabels: Record<string, string> = {
@@ -17,11 +22,21 @@ const categorieLabels: Record<string, string> = {
   resultats: "Résultats",
 };
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: "https://echiquier-martinerois.com" },
+    { "@type": "ListItem", position: 2, name: "Blog", item: "https://echiquier-martinerois.com/blog" },
+  ],
+};
+
 export default async function BlogPage() {
   const articles = await getLatestPosts(20).catch(() => []);
 
   return (
     <div className="bg-blanc">
+      <JsonLd data={breadcrumbJsonLd} />
       {/* En-tête */}
       <div className="bg-noir text-blanc py-20 relative overflow-hidden">
         <div className="absolute inset-0 chess-pattern opacity-[0.04]" />

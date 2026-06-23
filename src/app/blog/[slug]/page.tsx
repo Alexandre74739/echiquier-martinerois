@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getAllPostSlugs } from "@/src/lib/sanity/queries";
 import { PortableText } from "next-sanity";
+import { JsonLd } from "@/src/components/seo/JsonLd";
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs().catch(() => []);
@@ -16,9 +17,20 @@ export async function generateMetadata(props: PageProps<"/blog/[slug]">) {
   return {
     title: post.title,
     description: post.excerpt,
-    openGraph: { images: post.mainImage ? [post.mainImage] : [] },
+    alternates: {
+      canonical: `${BASE_URL}/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      type: "article",
+      publishedTime: post.publishedAt ?? undefined,
+      images: post.mainImage ? [post.mainImage] : [],
+    },
   };
 }
+
+import { BASE_URL } from "@/src/lib/config";
 
 export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
@@ -28,8 +40,35 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
 
   const date = post.publishedAt ? new Date(post.publishedAt) : null;
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${BASE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${BASE_URL}/blog/${slug}` },
+    ],
+  };
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt ?? undefined,
+    datePublished: post.publishedAt ?? undefined,
+    image: post.mainImage ? [post.mainImage] : undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "L'Échiquier Martinérois",
+      url: BASE_URL,
+    },
+    url: `${BASE_URL}/blog/${slug}`,
+  };
+
   return (
     <div className="bg-blanc">
+      <JsonLd data={breadcrumbJsonLd} />
+      <JsonLd data={articleJsonLd} />
       {/* En-tête article */}
       <div className="bg-noir text-blanc relative overflow-hidden">
         {post.mainImage && (

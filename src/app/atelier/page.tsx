@@ -1,8 +1,12 @@
 import { AtelierClient } from "./AtelierClient";
 
 export const metadata = {
+  title: "Atelier Échecs",
   description:
-    "Échiquier libre, puzzles par niveau et analyse Stockfish pour progresser aux échecs.",
+    "Échiquier interactif, puzzles par niveau et analyse Stockfish pour progresser aux échecs. Entraînez-vous en ligne gratuitement.",
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/atelier",
+  },
 };
 
 export default function AtelierPage() {

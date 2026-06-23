@@ -1,8 +1,14 @@
 import { OpenCookieBannerLink } from '@/src/components/layout/OpenCookieBannerLink'
 
 export const metadata = {
-  description: "Mentions légales, politique de confidentialité et informations RGPD du site de l'Échiquier Martinérois.",
-}
+  title: "Mentions légales",
+  description:
+    "Mentions légales, politique de confidentialité et informations RGPD du site de l'Échiquier Martinérois.",
+  robots: { index: false },
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/mentions-legales",
+  },
+};
 
 export default function MentionsLegalesPage() {
   return (

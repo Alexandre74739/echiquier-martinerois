@@ -5,8 +5,12 @@ import { FFESection } from "./_components/FFESection";
 import { FAQSection } from "./_components/FAQSection";
 
 export const metadata = {
+  title: "Tarifs & Adhésion",
   description:
-    "Découvrez les tarifs d'adhésion au club d'échecs L'Échiquier Martinérois et les informations sur la licence FFE.",
+    "Découvrez les tarifs d'adhésion au club d'échecs L'Échiquier Martinérois à Saint-Martin-d'Hères et les informations sur la licence FFE.",
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/tarifs",
+  },
 };
 
 export default async function TarifsPage() {

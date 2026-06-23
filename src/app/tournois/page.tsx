@@ -7,8 +7,12 @@ import type { SanityTournoi } from "@/src/types/sanity";
 export const revalidate = 60;
 
 export const metadata = {
+  title: "Tournois d'échecs",
   description:
-    "Retrouvez tous les tournois d'échecs organisés ou recommandés par L'Échiquier Martinérois.",
+    "Tournois d'échecs organisés ou recommandés par L'Échiquier Martinérois à Saint-Martin-d'Hères (Grenoble). Compétitions de la Ligue Dauphiné-Savoie.",
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/tournois",
+  },
 };
 
 export default async function TournoisPage() {

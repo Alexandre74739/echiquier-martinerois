@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllPostSlugs } from '@/src/lib/sanity/queries'
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://echiquier-martinerois.fr'
+import { BASE_URL } from '@/src/lib/config'
 
 const staticPages: MetadataRoute.Sitemap = [
   {

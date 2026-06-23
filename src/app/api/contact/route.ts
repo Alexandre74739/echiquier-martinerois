@@ -1,9 +1,10 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { BASE_URL } from '@/src/lib/config'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const ALLOWED_ORIGINS = [
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://echiquier-martinerois.fr',
+  BASE_URL,
   ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : []),
 ]
 

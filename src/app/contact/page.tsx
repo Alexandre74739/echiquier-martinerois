@@ -2,8 +2,13 @@ import { ContactForm } from './ContactForm'
 import { ContactInfos } from './_components/ContactInfos'
 
 export const metadata = {
-  description: "Contactez le club d'échecs L'Échiquier Martinérois pour toute question sur les cours, la cotisation ou les tournois.",
-}
+  title: "Contact",
+  description:
+    "Contactez le club d'échecs L'Échiquier Martinérois pour toute question sur les cours, la cotisation ou les tournois. Nous sommes disponibles par email ou par téléphone.",
+  alternates: {
+    canonical: "https://echiquier-martinerois.com/contact",
+  },
+};
 
 export default function ContactPage() {
   return (

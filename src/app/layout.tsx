@@ -5,6 +5,7 @@ import { Navbar } from "@/src/components/layout/Navbar";
 import { Footer } from "@/src/components/layout/Footer";
 import { CookieBanner } from "@/src/components/layout/CookieBanner";
 import { CookieProvider } from "@/src/components/providers/CookieProvider";
+import { BASE_URL } from "@/src/lib/config";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -20,21 +21,50 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "L'Échiquier Martinérois",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    template: "%s | L'Échiquier Martinérois",
+    default:
+      "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères (Grenoble)",
+  },
   description:
-    "Club d'échecs à Saint-Martin-d'Hères. Cours pour enfants, adolescents et adultes tous les mardis. Rejoignez notre communauté passionnée d'échecs.",
+    "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours tous les mardis pour enfants, ados et adultes. Rejoignez L'Échiquier Martinérois !",
   keywords: [
-    "échecs",
-    "club",
+    "club d'échecs",
     "Saint-Martin-d'Hères",
     "Grenoble",
-    "cours",
-    "tournois",
+    "SMH",
+    "échecs",
+    "cours d'échecs",
+    "tournoi échecs",
+    "Ligue Dauphiné-Savoie",
+    "échecs enfants Grenoble",
   ],
+  authors: [{ name: "L'Échiquier Martinérois" }],
+  creator: "L'Échiquier Martinérois",
   openGraph: {
     type: "website",
     locale: "fr_FR",
     siteName: "L'Échiquier Martinérois",
+    title:
+      "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères (Grenoble)",
+    description:
+      "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours tous les mardis pour enfants, ados et adultes.",
+    url: BASE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères",
+    description:
+      "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours tous les mardis pour enfants, ados et adultes.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
