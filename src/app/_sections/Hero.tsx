@@ -41,19 +41,18 @@ export function Hero() {
             <h1 className="font-display leading-none">
               <span
                 className="block text-blanc"
-                style={{ fontSize: "clamp(3.5rem, 11vw, 8.5rem)" }}
+                style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
               >
                 L'Échiquier
               </span>
               <span
                 className="block text-red"
-                style={{ fontSize: "clamp(2.8rem, 9vw, 7rem)" }}
+                style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)" }}
               >
                 Martinérois
               </span>
             </h1>
 
-            <div className="mt-6 w-16 h-1 bg-red mx-auto sm:mx-0" />
             <p className="mt-6 text-gris text-lg max-w-lg leading-relaxed">
               Cours d'échecs pour enfants, adolescents et adultes tous niveaux.
               Rejoignez une communauté passionnée chaque mardi soir.
