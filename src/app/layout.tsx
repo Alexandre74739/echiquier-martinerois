@@ -24,8 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     template: "%s | L'Échiquier Martinérois",
-    default:
-      "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères (Grenoble)",
+    default: "L'Échiquier Martinérois – Club d'échecs à Grenoble (SMH)",
   },
   description:
     "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours tous les mardis pour enfants, ados et adultes. Rejoignez L'Échiquier Martinérois !",
