@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getLatestPosts } from "@/src/lib/sanity/queries";
 import type { SanityPost } from "@/src/types/sanity";
 import { JsonLd } from "@/src/components/seo/JsonLd";
+import { Reveal } from "@/src/components/motion/Reveal";
 
 export const revalidate = 60;
 
@@ -61,7 +62,13 @@ export default async function BlogPage() {
           {articles.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {articles.map((article, i) => (
-                <ArticleCard key={article._id} article={article} featured={i === 0} />
+                <Reveal
+                  key={article._id}
+                  index={i}
+                  className={i === 0 ? "sm:col-span-2 lg:col-span-3" : undefined}
+                >
+                  <ArticleCard article={article} featured={i === 0} />
+                </Reveal>
               ))}
             </div>
           ) : (
@@ -86,7 +93,7 @@ function ArticleCard({
     return (
       <Link
         href={`/blog/${article.slug.current}`}
-        className="group sm:col-span-2 lg:col-span-3 block"
+        className="group block"
       >
         <div className="grid md:grid-cols-2 bg-noir overflow-hidden">
           {article.mainImage ? (

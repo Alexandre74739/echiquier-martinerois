@@ -5,6 +5,7 @@ import {
   IconClock,
   IconLocation,
 } from "@/src/components/ui/Icons";
+import { Reveal } from "@/src/components/motion/Reveal";
 
 const infoBar = [
   { Icon: IconCalendar, text: "Tous les mardis hors vacances scolaires" },
@@ -31,50 +32,64 @@ export function Hero() {
       <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center py-24 lg:py-32">
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center w-full">
           <div className="text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-3 mb-8">
-              <div className="w-8 h-0.5 bg-red" />
-              <span className="font-display text-base tracking-[0.35em] text-gris uppercase">
-                Club d'échecs · Saint-Martin-d'Hères · Grenoble
-              </span>
-            </div>
+            <Reveal index={0} y={16}>
+              <div className="flex items-center justify-center sm:justify-start gap-3 mb-8">
+                <div className="w-8 h-0.5 bg-red" />
+                <span className="font-display text-base tracking-[0.35em] text-gris uppercase">
+                  Club d'échecs · Saint-Martin-d'Hères · Grenoble
+                </span>
+              </div>
+            </Reveal>
 
-            <h1 className="font-display leading-none">
-              <span
-                className="block text-blanc"
-                style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
-              >
-                L'Échiquier
-              </span>
-              <span
-                className="block text-red"
-                style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)" }}
-              >
-                Martinérois
-              </span>
-            </h1>
+            <Reveal index={1}>
+              <h1 className="font-display leading-none">
+                <span
+                  className="block text-blanc"
+                  style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
+                >
+                  L'Échiquier
+                </span>
+                <span
+                  className="block text-red"
+                  style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)" }}
+                >
+                  Martinérois
+                </span>
+              </h1>
+            </Reveal>
 
-            <p className="mt-6 text-gris text-lg max-w-lg leading-relaxed">
-              Cours d'échecs pour enfants, adolescents et adultes tous niveaux.
-              Rejoignez une communauté passionnée chaque mardi soir.
-            </p>
+            <Reveal index={2}>
+              <p className="mt-6 text-gris text-lg max-w-lg leading-relaxed">
+                Cours d'échecs pour enfants, adolescents et adultes tous niveaux.
+                Rejoignez une communauté passionnée chaque mardi soir.
+              </p>
+            </Reveal>
 
-            <div className="flex flex-wrap gap-4 mt-10 justify-center sm:justify-start">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors animate-pulse-red"
-              >
-                <span aria-hidden="true">♞</span>Rejoindre le club
-              </Link>
-              <Link
-                href="/atelier"
-                className="inline-flex items-center gap-3 border-2 border-gris text-gris hover:border-blanc hover:text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
-              >
-                <span aria-hidden="true">♟</span>Atelier en ligne
-              </Link>
-            </div>
+            <Reveal index={3}>
+              <div className="flex flex-wrap gap-4 mt-10 justify-center sm:justify-start">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors animate-pulse-red"
+                >
+                  <span aria-hidden="true">♞</span>Rejoindre le club
+                </Link>
+                <Link
+                  href="/atelier"
+                  className="inline-flex items-center gap-3 border-2 border-gris text-gris hover:border-blanc hover:text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
+                >
+                  <span aria-hidden="true">♟</span>Atelier en ligne
+                </Link>
+              </div>
+            </Reveal>
           </div>
 
-          <div className="hidden lg:flex justify-center">
+          <Reveal
+            index={1}
+            delay={0.2}
+            y={0}
+            duration={0.8}
+            className="hidden lg:flex justify-center"
+          >
             <div className="relative w-80 h-96 xl:w-104 xl:h-120">
               <Image
                 src="/logo.png"
@@ -84,7 +99,7 @@ export function Hero() {
                 priority
               />
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
 

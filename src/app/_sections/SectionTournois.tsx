@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IconChevronRight } from "@/src/components/ui/Icons";
+import { Reveal } from "@/src/components/motion/Reveal";
 import type { SanityTournoi } from "@/src/types/sanity";
 
 const niveauColor: Record<string, string> = {
@@ -90,8 +91,10 @@ export function SectionTournois({ tournois }: { tournois: SanityTournoi[] }) {
 
         {tournois.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tournois.map((t) => (
-              <TournoisCard key={t._id} tournoi={t} />
+            {tournois.map((t, index) => (
+              <Reveal key={t._id} index={index}>
+                <TournoisCard tournoi={t} />
+              </Reveal>
             ))}
           </div>
         ) : (

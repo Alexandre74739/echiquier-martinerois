@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import "./globals.css";
 import { Navbar } from "@/src/components/layout/Navbar";
 import { Footer } from "@/src/components/layout/Footer";
@@ -75,12 +76,14 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${bebas.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-blanc text-noir antialiased">
-        <CookieProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CookieBanner />
-        </CookieProvider>
+        <MotionConfig reducedMotion="user">
+          <CookieProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CookieBanner />
+          </CookieProvider>
+        </MotionConfig>
       </body>
     </html>
   );

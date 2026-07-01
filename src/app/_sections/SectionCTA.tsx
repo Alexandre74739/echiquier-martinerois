@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Reveal } from '@/src/components/motion/Reveal'
 
 export function SectionCTA() {
   return (
@@ -10,7 +11,7 @@ export function SectionCTA() {
         ♔
       </span>
 
-      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <Reveal className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <span className="inline-block bg-noir px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase mb-6">
           Premier cours gratuit
         </span>
@@ -29,7 +30,7 @@ export function SectionCTA() {
             <span aria-hidden="true">♟</span>Voir les tarifs
           </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

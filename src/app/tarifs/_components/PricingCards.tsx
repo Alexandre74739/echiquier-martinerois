@@ -1,4 +1,5 @@
 import { PricingCard } from './PricingCard'
+import { Reveal } from '@/src/components/motion/Reveal'
 import type { SanityPricing, SanityPricingTier } from '@/src/types/sanity'
 
 /* Ordre : Gratuit (gauche) → Enfant (centre, featured) → Adulte (droite) */
@@ -32,14 +33,15 @@ export function PricingCards({ data }: { data: SanityPricing | null }) {
     return (
       <div className="grid md:grid-cols-3 gap-8 items-start pt-4">
         {data.tiers.map((tier: SanityPricingTier, i: number) => (
-          <PricingCard
-            key={tier.name}
-            categorie={tier.name}
-            tranche={tier.description ?? ''}
-            prix={tier.price}
-            avantages={tier.features ?? []}
-            featured={i === 1}
-          />
+          <Reveal key={tier.name} index={i}>
+            <PricingCard
+              categorie={tier.name}
+              tranche={tier.description ?? ''}
+              prix={tier.price}
+              avantages={tier.features ?? []}
+              featured={i === 1}
+            />
+          </Reveal>
         ))}
       </div>
     )
@@ -47,7 +49,11 @@ export function PricingCards({ data }: { data: SanityPricing | null }) {
 
   return (
     <div className="grid md:grid-cols-3 gap-8 items-start pt-4">
-      {tarifsParDefaut.map((t) => <PricingCard key={t.categorie} {...t} />)}
+      {tarifsParDefaut.map((t, i) => (
+        <Reveal key={t.categorie} index={i}>
+          <PricingCard {...t} />
+        </Reveal>
+      ))}
     </div>
   )
 }

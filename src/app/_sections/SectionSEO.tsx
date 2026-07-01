@@ -1,3 +1,5 @@
+import { Reveal } from '@/src/components/motion/Reveal'
+
 const niveaux = [
   { piece: '♟', titre: 'Débutants', desc: 'Initiation aux règles et à la stratégie de base.' },
   { piece: '♞', titre: 'Intermédiaires', desc: "Perfectionnement tactique et étude d'ouvertures." },
@@ -10,7 +12,7 @@ export function SectionSEO() {
     <section className="bg-gris-clair py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
+          <Reveal>
             <span className="inline-block bg-noir px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase mb-4">
               Grenoble · SMH
             </span>
@@ -28,15 +30,17 @@ export function SectionSEO() {
               Dauphiné-Savoie et proposons des cours structurés. Les échecs développent la
               concentration, la logique et la créativité de 6 à 99 ans.
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-2 gap-4">
-            {niveaux.map(({ piece, titre, desc }) => (
-              <div key={titre} className="bg-blanc p-5 border-l-4 border-red hover:shadow-lg transition-shadow">
-                <span className="text-2xl text-noir block mb-2" aria-hidden="true">{piece}</span>
-                <p className="font-display text-lg text-noir tracking-wide">{titre}</p>
-                <p className="text-gris text-xs mt-1 leading-relaxed">{desc}</p>
-              </div>
+            {niveaux.map(({ piece, titre, desc }, index) => (
+              <Reveal key={titre} index={index}>
+                <div className="bg-blanc p-5 border-l-4 border-red hover:shadow-lg transition-shadow h-full">
+                  <span className="text-2xl text-noir block mb-2" aria-hidden="true">{piece}</span>
+                  <p className="font-display text-lg text-noir tracking-wide">{titre}</p>
+                  <p className="text-gris text-xs mt-1 leading-relaxed">{desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>

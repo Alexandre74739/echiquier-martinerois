@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTournaments } from "@/src/lib/sanity/queries";
 import { IconLocation } from "@/src/components/ui/Icons";
+import { Reveal } from "@/src/components/motion/Reveal";
 import type { SanityTournoi } from "@/src/types/sanity";
 
 export const revalidate = 60;
@@ -46,8 +47,10 @@ export default async function TournoisPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {tournois.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tournois.map((t) => (
-                <TournoisCard key={t._id} tournoi={t} />
+              {tournois.map((t, index) => (
+                <Reveal key={t._id} index={index}>
+                  <TournoisCard tournoi={t} />
+                </Reveal>
               ))}
             </div>
           ) : (
@@ -85,9 +88,12 @@ export default async function TournoisPage() {
                   "Posséder une licence FFE valide",
                   "Informer le président de votre souhait de participer",
                   "Niveau évalué lors des cours ou séances libres",
-                ].map((item) => (
-                  <li
+                ].map((item, index) => (
+                  <Reveal
                     key={item}
+                    index={index}
+                    y={12}
+                    as="li"
                     className="flex items-start gap-2 text-gris text-base"
                   >
                     <span
@@ -97,7 +103,7 @@ export default async function TournoisPage() {
                       ♟
                     </span>
                     {item}
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>

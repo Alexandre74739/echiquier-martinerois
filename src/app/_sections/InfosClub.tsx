@@ -1,4 +1,5 @@
 import { IconLocation } from "@/src/components/ui/Icons";
+import { Reveal } from "@/src/components/motion/Reveal";
 
 const activites = [
   {
@@ -41,47 +42,50 @@ export function InfosClub() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {activites.map(({ icon, titre, desc, couleur }) => (
-            <div
-              key={titre}
-              className={`bg-blanc border-t-6 ${couleur} p-6 shadow-sm hover:shadow-lg transition-shadow group`}
-            >
-              <span
-                className="text-4xl block mb-4 group-hover:scale-110 transition-transform"
-                aria-hidden="true"
+          {activites.map(({ icon, titre, desc, couleur }, index) => (
+            <Reveal key={titre} index={index}>
+              <div
+                className={`bg-blanc border-t-6 ${couleur} p-6 shadow-sm hover:shadow-lg transition-shadow group h-full`}
               >
-                {icon}
-              </span>
-              <h3 className="font-display text-2xl text-noir mb-2 tracking-wide">
-                {titre}
-              </h3>
-              <p className="text-gris text-sm leading-relaxed">{desc}</p>
-            </div>
+                <span
+                  className="text-4xl block mb-4 group-hover:scale-110 transition-transform"
+                  aria-hidden="true"
+                >
+                  {icon}
+                </span>
+                <h3 className="font-display text-2xl text-noir mb-2 tracking-wide">
+                  {titre}
+                </h3>
+                <p className="text-gris text-sm leading-relaxed">{desc}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-12 bg-noir text-blanc p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <div className="text-red shrink-0">
-            <IconLocation size={40} />
+        <Reveal delay={0.1}>
+          <div className="mt-12 bg-noir text-blanc p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="text-red shrink-0">
+              <IconLocation size={40} />
+            </div>
+            <div>
+              <p className="font-display text-2xl tracking-wider mb-1">
+                Où nous trouver
+              </p>
+              <p className="text-gris">
+                Place de la Liberté, Saint-Martin-d'Hères, entrée du côté de
+                l'église
+              </p>
+            </div>
+            <a
+              href="https://maps.google.com/?q=Place+de+la+Liberté+Saint-Martin-d'Hères"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sm:ml-auto shrink-0 border border-red text-red hover:bg-red hover:text-blanc px-5 py-2 font-display tracking-wider transition-colors text-sm"
+            >
+              Voir sur la carte
+            </a>
           </div>
-          <div>
-            <p className="font-display text-2xl tracking-wider mb-1">
-              Où nous trouver
-            </p>
-            <p className="text-gris">
-              Place de la Liberté, Saint-Martin-d'Hères, entrée du côté de
-              l'église
-            </p>
-          </div>
-          <a
-            href="https://maps.google.com/?q=Place+de+la+Liberté+Saint-Martin-d'Hères"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sm:ml-auto shrink-0 border border-red text-red hover:bg-red hover:text-blanc px-5 py-2 font-display tracking-wider transition-colors text-sm"
-          >
-            Voir sur la carte
-          </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
