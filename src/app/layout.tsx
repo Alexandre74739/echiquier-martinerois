@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import "./globals.css";
@@ -66,6 +66,11 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#0A0A0A",
 };
 
 export default function RootLayout({
