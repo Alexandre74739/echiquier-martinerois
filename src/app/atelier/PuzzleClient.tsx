@@ -462,7 +462,7 @@ export function PuzzleClient() {
             disabled={hintLoading}
             className="cursor-pointer flex-1 bg-gris-clair hover:bg-gris hover:text-blanc text-noir px-4 py-3 font-display tracking-wider transition-colors text-sm disabled:opacity-60"
           >
-            {hintLoading ? "⚙ Stockfish…" : "⚡ Indice"}
+            {hintLoading ? "⚙ Stockfish…" : "Indice"}
           </button>
         )}
 
