@@ -39,6 +39,7 @@ export function PricingCards({ data }: { data: SanityPricing | null }) {
             prix={tier.price}
             avantages={tier.features ?? []}
             featured={i === 1}
+            index={i}
           />
         ))}
       </div>
@@ -47,7 +48,9 @@ export function PricingCards({ data }: { data: SanityPricing | null }) {
 
   return (
     <div className="grid md:grid-cols-3 gap-8 items-start pt-4">
-      {tarifsParDefaut.map((t) => <PricingCard key={t.categorie} {...t} />)}
+      {tarifsParDefaut.map((t, i) => (
+        <PricingCard key={t.categorie} {...t} index={i} />
+      ))}
     </div>
   )
 }

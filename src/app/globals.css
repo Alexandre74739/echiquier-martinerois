@@ -19,6 +19,7 @@
 :root {
   --background: #F8F8F8;
   --foreground: #0A0A0A;
+  color-scheme: light;
 }
 
 * {
@@ -27,6 +28,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {

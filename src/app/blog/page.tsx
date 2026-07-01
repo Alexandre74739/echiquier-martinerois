@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getLatestPosts } from "@/src/lib/sanity/queries";
 import type { SanityPost } from "@/src/types/sanity";
 import { JsonLd } from "@/src/components/seo/JsonLd";
+import { Reveal } from "@/src/components/motion/Reveal";
 
 export const revalidate = 60;
 
@@ -40,7 +41,7 @@ export default async function BlogPage() {
       {/* En-tête */}
       <div className="bg-noir text-blanc py-20 relative overflow-hidden">
         <div className="absolute inset-0 chess-pattern opacity-[0.04]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4">
             <span className="inline-block bg-red px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase">
               Vie du club
@@ -52,7 +53,7 @@ export default async function BlogPage() {
             événements. Découvrez nos conseils pédagogiques pour booster votre
             progression, quel que soit votre niveau.
           </p>
-        </div>
+        </Reveal>
       </div>
 
       {/* Articles */}
@@ -61,7 +62,12 @@ export default async function BlogPage() {
           {articles.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {articles.map((article, i) => (
-                <ArticleCard key={article._id} article={article} featured={i === 0} />
+                <div
+                  key={article._id}
+                  className={i === 0 ? "sm:col-span-2 lg:col-span-3" : undefined}
+                >
+                  <ArticleCard article={article} featured={i === 0} index={i} />
+                </div>
               ))}
             </div>
           ) : (
@@ -76,9 +82,11 @@ export default async function BlogPage() {
 function ArticleCard({
   article,
   featured = false,
+  index = 0,
 }: {
   article: SanityPost;
   featured?: boolean;
+  index?: number;
 }) {
   const date = article.publishedAt ? new Date(article.publishedAt) : null;
 
@@ -86,9 +94,9 @@ function ArticleCard({
     return (
       <Link
         href={`/blog/${article.slug.current}`}
-        className="group sm:col-span-2 lg:col-span-3 block"
+        className="group block"
       >
-        <div className="grid md:grid-cols-2 bg-noir overflow-hidden">
+        <Reveal index={index} className="grid md:grid-cols-2 bg-noir overflow-hidden">
           {article.mainImage ? (
             <div className="relative h-64 md:h-auto overflow-hidden">
               <Image
@@ -132,14 +140,18 @@ function ArticleCard({
               Lire l'article <span aria-hidden="true">→</span>
             </span>
           </div>
-        </div>
+        </Reveal>
       </Link>
     );
   }
 
   return (
     <Link href={`/blog/${article.slug.current}`} className="group block">
-      <article className="border-t-4 border-gris-clair hover:border-red bg-blanc hover:shadow-lg transition-all">
+      <Reveal
+        as="article"
+        index={index}
+        className="border-t-4 border-gris-clair hover:border-red bg-blanc hover:shadow-lg transition-all"
+      >
         {article.mainImage ? (
           <div className="relative h-48 overflow-hidden">
             <Image
@@ -183,7 +195,7 @@ function ArticleCard({
             </p>
           )}
         </div>
-      </article>
+      </Reveal>
     </Link>
   );
 }

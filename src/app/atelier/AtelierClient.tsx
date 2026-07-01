@@ -74,7 +74,7 @@ export function AtelierClient() {
             <SectionHeader
               icon="♟"
               title="Échiquier libre"
-              desc="Déplacez les pièces librement — idéal pour analyser des positions ou préparer une partie."
+              desc="Déplacez les pièces librement, idéal pour analyser des positions ou préparer une partie."
             />
             <ChessBoardClient />
           </section>

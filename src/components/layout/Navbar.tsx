@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 
 const liens = [
   { href: '/', label: 'Accueil' },
@@ -56,7 +57,11 @@ export function Navbar() {
                   >
                     {label}
                     {actif && (
-                      <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-red" />
+                      <motion.span
+                        layoutId="navbar-underline"
+                        className="absolute bottom-0 left-4 right-4 h-0.5 bg-red"
+                        transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+                      />
                     )}
                   </Link>
                 </li>
@@ -78,30 +83,39 @@ export function Navbar() {
         </div>
 
         {/* Menu mobile */}
-        {menuOuvert && (
-          <div className="md:hidden border-t border-gris-fonce pb-4">
-            <ul className="flex flex-col gap-1 pt-2">
-              {liens.map(({ href, label }) => {
-                const actif = href === '/' ? pathname === '/' : pathname.startsWith(href)
-                return (
-                  <li key={href}>
-                    <Link
-                      href={href}
-                      onClick={() => setMenuOuvert(false)}
-                      className={`block px-4 py-3 font-display text-xl tracking-wider border-l-4 transition-colors
-                        ${actif
-                          ? 'border-red text-red bg-gris-fonce'
-                          : 'border-transparent text-blanc hover:border-red hover:text-red'
-                        }`}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        )}
+        <AnimatePresence initial={false}>
+          {menuOuvert && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className="md:hidden border-t border-gris-fonce overflow-hidden"
+            >
+              <ul className="flex flex-col gap-1 pt-2 pb-4">
+                {liens.map(({ href, label }) => {
+                  const actif = href === '/' ? pathname === '/' : pathname.startsWith(href)
+                  return (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        onClick={() => setMenuOuvert(false)}
+                        className={`block px-4 py-3 font-display text-xl tracking-wider border-l-4 transition-colors
+                          ${actif
+                            ? 'border-red text-red bg-gris-fonce'
+                            : 'border-transparent text-blanc hover:border-red hover:text-red'
+                          }`}
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   )

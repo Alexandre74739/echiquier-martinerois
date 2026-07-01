@@ -10,9 +10,12 @@ import { SectionTournois } from "./_sections/SectionTournois";
 import { SectionBlog } from "./_sections/SectionBlog";
 import { SectionChiffres } from "./_sections/SectionChiffres";
 import { SectionCTA } from "./_sections/SectionCTA";
+import { SectionFAQ } from "./_sections/SectionFAQ";
 
 export const metadata = {
-  title: "Club d'échecs à Saint-Martin-d'Hères (Grenoble)",
+  title: {
+    absolute: "L'Échiquier Martinérois – Club d'échecs à Grenoble (SMH)",
+  },
   description:
     "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours pour enfants, ados et adultes tous les mardis. Rejoignez L'Échiquier Martinérois !",
   alternates: {
@@ -20,43 +23,45 @@ export const metadata = {
   },
 };
 
+const faq = [
+  {
+    question: "Où se trouve le club d'échecs à Saint-Martin-d'Hères (Grenoble) ?",
+    reponse:
+      "Le club est situé Place de la Liberté à Saint-Martin-d'Hères (38400), entrée côté église, à quelques minutes du centre de Grenoble.",
+  },
+  {
+    question: "Quels sont les horaires des cours d'échecs ?",
+    reponse:
+      "Le club se réunit tous les mardis hors vacances scolaires : cours jeunes de 18h à 19h, cours adultes de 19h à 22h.",
+  },
+  {
+    question: "Faut-il déjà savoir jouer aux échecs pour s'inscrire ?",
+    reponse:
+      "Non, le club accueille aussi bien les grands débutants que les joueurs confirmés. Le premier cours est gratuit et sans engagement, quel que soit votre niveau.",
+  },
+  {
+    question: "Quel est le tarif de la cotisation ?",
+    reponse:
+      "La cotisation varie selon l'âge et inclut la licence FFE. Le premier cours est gratuit ; le détail complet des tarifs est disponible sur notre page Tarifs.",
+  },
+  {
+    question: "Comment inscrire son enfant au club d'échecs à Grenoble ?",
+    reponse:
+      "Les enfants sont acceptés dès 6 ans. Contactez-nous par email à echiquier.martinerois@gmail.com ou venez directement un mardi à 18h pour un cours découverte.",
+  },
+];
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Où se trouve le club d'échecs L'Échiquier Martinérois ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le club est situé Place de la Liberté à Saint-Martin-d'Hères (38400), dans l'agglomération grenobloise, entrée côté église.",
-      },
+  mainEntity: faq.map(({ question, reponse }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: reponse,
     },
-    {
-      "@type": "Question",
-      name: "Quels sont les horaires du club ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le club se réunit tous les mardis hors vacances scolaires : cours jeunes de 18h à 19h, cours adultes de 19h à 20h, jeu libre de 20h à 22h.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Comment rejoindre le club d'échecs de Saint-Martin-d'Hères ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Contactez-nous par email à echiquier.martinerois@gmail.com ou venez directement le mardi soir Place de la Liberté. L'adhésion comprend la licence FFE.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Y a-t-il des cours d'échecs pour enfants à Grenoble ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Oui, L'Échiquier Martinérois propose des cours d'échecs pour enfants dès 6 ans, tous les mardis de 18h à 19h à Saint-Martin-d'Hères.",
-      },
-    },
-  ],
+  })),
 };
 
 const clubJsonLd = {
@@ -114,6 +119,7 @@ export default async function HomePage() {
       <SectionTournois tournois={tournois} />
       <SectionBlog articles={articles} />
       <SectionChiffres />
+      <SectionFAQ items={faq} />
       <SectionCTA />
     </>
   );

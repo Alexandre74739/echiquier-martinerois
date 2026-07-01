@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import "./globals.css";
 import { Navbar } from "@/src/components/layout/Navbar";
 import { Footer } from "@/src/components/layout/Footer";
@@ -24,8 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     template: "%s | L'Échiquier Martinérois",
-    default:
-      "L'Échiquier Martinérois — Club d'échecs à Saint-Martin-d'Hères (Grenoble)",
+    default: "L'Échiquier Martinérois – Club d'échecs à Grenoble (SMH)",
   },
   description:
     "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours tous les mardis pour enfants, ados et adultes. Rejoignez L'Échiquier Martinérois !",
@@ -68,6 +68,11 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#0A0A0A",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -76,12 +81,14 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${bebas.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-blanc text-noir antialiased">
-        <CookieProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CookieBanner />
-        </CookieProvider>
+        <MotionConfig reducedMotion="user">
+          <CookieProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CookieBanner />
+          </CookieProvider>
+        </MotionConfig>
       </body>
     </html>
   );

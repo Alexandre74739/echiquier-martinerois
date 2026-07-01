@@ -1,4 +1,5 @@
 import { IconLocation } from "@/src/components/ui/Icons";
+import { Reveal } from "@/src/components/motion/Reveal";
 
 const activites = [
   {
@@ -41,10 +42,11 @@ export function InfosClub() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {activites.map(({ icon, titre, desc, couleur }) => (
-            <div
+          {activites.map(({ icon, titre, desc, couleur }, index) => (
+            <Reveal
               key={titre}
-              className={`bg-blanc border-t-6 ${couleur} p-6 shadow-sm hover:shadow-lg transition-shadow group`}
+              index={index}
+              className={`bg-blanc border-t-6 ${couleur} p-6 shadow-sm hover:shadow-lg transition-shadow group h-full`}
             >
               <span
                 className="text-4xl block mb-4 group-hover:scale-110 transition-transform"
@@ -56,11 +58,14 @@ export function InfosClub() {
                 {titre}
               </h3>
               <p className="text-gris text-sm leading-relaxed">{desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-12 bg-noir text-blanc p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <Reveal
+          delay={0.1}
+          className="mt-12 bg-noir text-blanc p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6"
+        >
           <div className="text-red shrink-0">
             <IconLocation size={40} />
           </div>
@@ -81,7 +86,7 @@ export function InfosClub() {
           >
             Voir sur la carte
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

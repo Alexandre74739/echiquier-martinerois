@@ -3,6 +3,9 @@ import { getPricing } from "@/src/lib/sanity/queries";
 import { PricingCards } from "./_components/PricingCards";
 import { FFESection } from "./_components/FFESection";
 import { FAQSection } from "./_components/FAQSection";
+import { Reveal } from "@/src/components/motion/Reveal";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "Tarifs & Adhésion",
@@ -23,7 +26,7 @@ export default async function TarifsPage() {
           className="absolute inset-0 chess-pattern opacity-[0.04]"
           aria-hidden="true"
         />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="inline-block bg-red px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase mb-4">
             Rejoindre le club
           </span>
@@ -35,7 +38,7 @@ export default async function TarifsPage() {
             club est toujours gratuit. Contactez-nous pour obtenir votre tarif
             personnalisé selon votre catégorie.
           </p>
-        </div>
+        </Reveal>
       </div>
 
       <section className="py-20">
@@ -48,15 +51,17 @@ export default async function TarifsPage() {
       <FAQSection />
 
       <div className="bg-noir py-14 text-center">
-        <p className="text-gris mb-6 text-lg">
-          Vous avez une question sur les tarifs ?
-        </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
-        >
-          <span aria-hidden="true">♞</span>Nous contacter
-        </Link>
+        <Reveal>
+          <p className="text-gris mb-6 text-lg">
+            Vous avez une question sur les tarifs ?
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
+          >
+            <span aria-hidden="true">♞</span>Nous contacter
+          </Link>
+        </Reveal>
       </div>
     </div>
   );

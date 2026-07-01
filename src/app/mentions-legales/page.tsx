@@ -1,4 +1,5 @@
 import { OpenCookieBannerLink } from '@/src/components/layout/OpenCookieBannerLink'
+import { Reveal } from '@/src/components/motion/Reveal'
 
 export const metadata = {
   title: "Mentions légales",
@@ -15,10 +16,10 @@ export default function MentionsLegalesPage() {
     <div className="bg-blanc">
       <div className="bg-noir text-blanc py-20 relative overflow-hidden">
         <div className="absolute inset-0 chess-pattern opacity-[0.04]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-display text-5xl sm:text-7xl text-blanc">Mentions légales</h1>
           <p className="text-gris mt-4">Politique de confidentialité & RGPD</p>
-        </div>
+        </Reveal>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -144,9 +145,9 @@ export default function MentionsLegalesPage() {
 
 function Section({ titre, children }: { titre: string; children: React.ReactNode }) {
   return (
-    <section className="mb-10">
+    <Reveal as="section" className="mb-10">
       <h2 className="font-display text-3xl text-noir border-l-4 border-red pl-4 mb-4">{titre}</h2>
       <div className="text-gris leading-relaxed space-y-3">{children}</div>
-    </section>
+    </Reveal>
   )
 }
