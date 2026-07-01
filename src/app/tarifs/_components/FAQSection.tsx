@@ -27,9 +27,7 @@ export function FAQSection() {
         <Reveal>
           <h2 className="font-display text-4xl text-noir mb-10 red-line">Questions fréquentes</h2>
         </Reveal>
-        <Reveal delay={0.1}>
-          <Accordion items={faq} />
-        </Reveal>
+        <Accordion items={faq} />
       </div>
     </section>
   )

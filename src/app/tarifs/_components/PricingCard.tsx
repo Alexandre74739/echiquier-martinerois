@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Reveal } from '@/src/components/motion/Reveal'
 
 type Props = {
   categorie: string
@@ -7,11 +8,14 @@ type Props = {
   avantages: string[]
   featured?: boolean
   badge?: string
+  index?: number
 }
 
-export function PricingCard({ categorie, tranche, prix, avantages, featured = false, badge }: Props) {
+export function PricingCard({ categorie, tranche, prix, avantages, featured = false, badge, index = 0 }: Props) {
   return (
-    <div className={`relative flex flex-col border-t-4 p-8 shadow-sm transition-shadow hover:shadow-xl
+    <Reveal
+      index={index}
+      className={`relative flex flex-col border-t-4 p-8 shadow-sm transition-shadow hover:shadow-xl
       ${featured
         ? 'border-red bg-noir text-blanc -mt-4 -mb-4 z-10'
         : 'border-gris-clair bg-blanc text-noir'
@@ -51,6 +55,6 @@ export function PricingCard({ categorie, tranche, prix, avantages, featured = fa
       >
         S'inscrire
       </Link>
-    </div>
+    </Reveal>
   )
 }

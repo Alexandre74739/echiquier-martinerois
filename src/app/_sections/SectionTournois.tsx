@@ -11,10 +11,19 @@ const niveauColor: Record<string, string> = {
   open: "bg-noir",
 };
 
-function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
+function TournoisCard({
+  tournoi,
+  index = 0,
+}: {
+  tournoi: SanityTournoi;
+  index?: number;
+}) {
   const date = tournoi.date ? new Date(tournoi.date) : null;
   return (
-    <div className="bg-blanc border-t-4 border-red overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+    <Reveal
+      index={index}
+      className="bg-blanc border-t-4 border-red overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
+    >
       {tournoi.poster && (
         <div className="relative h-48 bg-gris-clair">
           <Image
@@ -48,7 +57,7 @@ function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
           <p className="text-gris text-sm">{tournoi.location}</p>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -92,9 +101,7 @@ export function SectionTournois({ tournois }: { tournois: SanityTournoi[] }) {
         {tournois.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {tournois.map((t, index) => (
-              <Reveal key={t._id} index={index}>
-                <TournoisCard tournoi={t} />
-              </Reveal>
+              <TournoisCard key={t._id} tournoi={t} index={index} />
             ))}
           </div>
         ) : (

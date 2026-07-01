@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
+import { Reveal } from '@/src/components/motion/Reveal'
 
 export type AccordionItem = { question: string; reponse: string }
 
@@ -19,7 +20,7 @@ export function Accordion({
       {items.map(({ question, reponse }, index) => {
         const isOpen = openIndex === index
         return (
-          <div key={question} className="border-l-4 border-red">
+          <Reveal key={question} index={index} y={16} className="border-l-4 border-red">
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : index)}
@@ -52,7 +53,7 @@ export function Accordion({
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </Reveal>
         )
       })}
     </div>

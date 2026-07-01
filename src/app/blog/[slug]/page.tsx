@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { getPostBySlug, getAllPostSlugs } from "@/src/lib/sanity/queries";
 import { PortableText } from "next-sanity";
 import { JsonLd } from "@/src/components/seo/JsonLd";
+import { Reveal } from "@/src/components/motion/Reveal";
+
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs().catch(() => []);
@@ -90,54 +93,57 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
             <span aria-hidden="true">←</span> Retour au blog
           </Link>
 
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            {post.categories?.map((cat: string) => (
-              <span
-                key={cat}
-                className="bg-red px-2 py-0.5 text-xs text-blanc font-display tracking-wider"
-              >
-                {cat}
-              </span>
-            ))}
-            {date && (
-              <time className="text-gris text-sm" dateTime={post.publishedAt ?? undefined}>
-                {date.toLocaleDateString("fr-FR", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </time>
+          <Reveal>
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              {post.categories?.map((cat: string) => (
+                <span
+                  key={cat}
+                  className="bg-red px-2 py-0.5 text-xs text-blanc font-display tracking-wider"
+                >
+                  {cat}
+                </span>
+              ))}
+              {date && (
+                <time className="text-gris text-sm" dateTime={post.publishedAt ?? undefined}>
+                  {date.toLocaleDateString("fr-FR", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </time>
+              )}
+            </div>
+
+            <h1 className="font-display text-4xl sm:text-6xl text-blanc leading-tight">
+              {post.title}
+            </h1>
+
+            {post.excerpt && (
+              <p className="mt-4 text-gris text-xl leading-relaxed max-w-2xl">
+                {post.excerpt}
+              </p>
             )}
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-6xl text-blanc leading-tight">
-            {post.title}
-          </h1>
-
-          {post.excerpt && (
-            <p className="mt-4 text-gris text-xl leading-relaxed max-w-2xl">
-              {post.excerpt}
-            </p>
-          )}
+          </Reveal>
         </div>
       </div>
 
       {/* Corps de l'article */}
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {post.mainImage && (
-          <div className="relative h-64 sm:h-96 mb-12 overflow-hidden">
+          <Reveal className="relative h-64 sm:h-96 mb-12 overflow-hidden">
             <Image
               src={post.mainImage}
               alt={post.title}
               fill
               className="object-cover"
             />
-          </div>
+          </Reveal>
         )}
 
         {post.body ? (
-          <div
+          <Reveal
+            delay={0.1}
             className="prose prose-lg max-w-none
             prose-headings:font-display prose-headings:tracking-wide
             prose-h2:text-4xl prose-h3:text-3xl
@@ -171,7 +177,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
                 },
               }}
             />
-          </div>
+          </Reveal>
         ) : (
           <p className="text-gris italic">
             Contenu de l'article non disponible.

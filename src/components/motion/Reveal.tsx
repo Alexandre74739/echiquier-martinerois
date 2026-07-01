@@ -10,6 +10,8 @@ const tags = {
   div: motion.div,
   li: motion.li,
   span: motion.span,
+  section: motion.section,
+  article: motion.article,
 } as const
 
 type RevealProps = {

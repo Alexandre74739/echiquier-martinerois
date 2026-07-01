@@ -1,5 +1,6 @@
 import { ContactForm } from './ContactForm'
 import { ContactInfos } from './_components/ContactInfos'
+import { Reveal } from '@/src/components/motion/Reveal'
 
 export const metadata = {
   title: "Contact",
@@ -18,7 +19,7 @@ export default function ContactPage() {
           className="absolute inset-0 chess-pattern opacity-[0.04]"
           aria-hidden="true"
         />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="inline-block bg-red px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase mb-4">
             Nous joindre
           </span>
@@ -30,18 +31,20 @@ export default function ContactPage() {
             à votre écoute pour vous aider. Écrivez-nous dès maintenant pour
             rejoindre le club.
           </p>
-        </div>
+        </Reveal>
       </div>
 
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
-          <ContactInfos />
-          <div>
+          <Reveal index={0}>
+            <ContactInfos />
+          </Reveal>
+          <Reveal index={1}>
             <h2 className="font-display text-4xl text-noir red-line mb-8">
               Envoyer un message
             </h2>
             <ContactForm />
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>

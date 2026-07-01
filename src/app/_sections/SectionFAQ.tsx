@@ -10,9 +10,7 @@ export function SectionFAQ({ items }: { items: FAQItem[] }) {
         <Reveal>
           <h2 className="font-display text-4xl text-noir mb-10 red-line">Questions fréquentes</h2>
         </Reveal>
-        <Reveal delay={0.1}>
-          <Accordion items={items} />
-        </Reveal>
+        <Accordion items={items} />
       </div>
     </section>
   )

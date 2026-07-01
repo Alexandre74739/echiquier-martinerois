@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getTournaments } from "@/src/lib/sanity/queries";
+import { getTournaments, getPastTournaments } from "@/src/lib/sanity/queries";
 import { IconLocation } from "@/src/components/ui/Icons";
 import { Reveal } from "@/src/components/motion/Reveal";
 import type { SanityTournoi } from "@/src/types/sanity";
@@ -17,14 +17,17 @@ export const metadata = {
 };
 
 export default async function TournoisPage() {
-  const tournois = await getTournaments(20).catch(() => []);
+  const [tournois, tournoisPasses] = await Promise.all([
+    getTournaments(20).catch(() => []),
+    getPastTournaments(6).catch(() => []),
+  ]);
 
   return (
     <div className="bg-blanc">
       {/* En-tête */}
       <div className="bg-noir text-blanc py-20 relative overflow-hidden">
         <div className="absolute inset-0 chess-pattern opacity-[0.04]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4">
             <span className="inline-block bg-red px-3 py-1 font-display text-sm tracking-[0.2em] text-blanc uppercase">
               Compétitions
@@ -39,7 +42,7 @@ export default async function TournoisPage() {
             vous soyez compétiteur ou amateur, trouvez le défi qui vous
             correspond.
           </p>
-        </div>
+        </Reveal>
       </div>
 
       {/* Liste */}
@@ -48,9 +51,7 @@ export default async function TournoisPage() {
           {tournois.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {tournois.map((t, index) => (
-                <Reveal key={t._id} index={index}>
-                  <TournoisCard tournoi={t} />
-                </Reveal>
+                <TournoisCard key={t._id} tournoi={t} index={index} />
               ))}
             </div>
           ) : (
@@ -59,11 +60,29 @@ export default async function TournoisPage() {
         </div>
       </section>
 
+      {/* Archives */}
+      {tournoisPasses.length > 0 && (
+        <section className="py-16 border-t border-gris-clair">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <h2 className="font-display text-4xl text-noir red-line mb-8">
+                Tournois passés
+              </h2>
+            </Reveal>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {tournoisPasses.map((t, index) => (
+                <TournoisCard key={t._id} tournoi={t} index={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Info compétition */}
       <section className="bg-gris-clair py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-10 items-start">
-            <div>
+            <Reveal>
               <h2 className="font-display text-4xl text-noir red-line mb-4">
                 Nos équipes
               </h2>
@@ -77,11 +96,13 @@ export default async function TournoisPage() {
                 D'autres compétitions (tournois individuels, open régionaux)
                 sont disponibles sur demande auprès du bureau du club.
               </p>
-            </div>
+            </Reveal>
             <div>
-              <h2 className="font-display text-4xl text-noir red-line mb-4">
-                Conditions
-              </h2>
+              <Reveal>
+                <h2 className="font-display text-4xl text-noir red-line mb-4">
+                  Conditions
+                </h2>
+              </Reveal>
               <ul className="space-y-3">
                 {[
                   "Être adhérent du club pour la saison en cours",
@@ -113,16 +134,18 @@ export default async function TournoisPage() {
 
       {/* CTA */}
       <div className="bg-noir py-14 text-center">
-        <p className="text-gris mb-6 text-lg">
-          Intéressé par les compétitions ?
-        </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
-        >
-          <span aria-hidden="true">♜</span>
-          Contacter le bureau
-        </Link>
+        <Reveal>
+          <p className="text-gris mb-6 text-lg">
+            Intéressé par les compétitions ?
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-3 bg-red hover:bg-red-hover text-blanc px-8 py-4 font-display text-xl tracking-wider transition-colors"
+          >
+            <span aria-hidden="true">♜</span>
+            Contacter le bureau
+          </Link>
+        </Reveal>
       </div>
     </div>
   );
@@ -135,14 +158,21 @@ const niveauColor: Record<string, string> = {
   open: "bg-noir",
 };
 
-function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
+function TournoisCard({
+  tournoi,
+  index = 0,
+}: {
+  tournoi: SanityTournoi;
+  index?: number;
+}) {
   const date = tournoi.date ? new Date(tournoi.date) : null;
   const passe = date ? date < new Date() : false;
   const safeUrl =
     tournoi.registrationUrl?.startsWith("http") ? tournoi.registrationUrl : null;
 
   return (
-    <div
+    <Reveal
+      index={index}
       className={`bg-blanc border-t-4 overflow-hidden shadow-sm hover:shadow-lg transition-shadow ${passe ? "border-gris opacity-70" : "border-red"}`}
     >
       {tournoi.poster && (
@@ -207,7 +237,7 @@ function TournoisCard({ tournoi }: { tournoi: SanityTournoi }) {
           </a>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 }
 

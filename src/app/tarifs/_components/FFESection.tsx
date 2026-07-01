@@ -1,8 +1,10 @@
+import { Reveal } from "@/src/components/motion/Reveal";
+
 export function FFESection() {
   return (
     <section className="bg-gris-clair py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-start gap-6">
+        <Reveal className="flex items-start gap-6">
           <span className="text-6xl shrink-0 text-noir" aria-hidden="true">
             ♜
           </span>
@@ -33,7 +35,7 @@ export function FFESection() {
               <span aria-hidden="true">♟</span>Site de la FFE
             </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

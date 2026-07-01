@@ -18,7 +18,7 @@ export async function getLatestPosts(limit = 6): Promise<SanityPost[]> {
       _id, title, slug, publishedAt, excerpt,
       "mainImage": mainImage
     }`,
-    { limit: limit - 1 }
+    { limit }
   )
   return (posts ?? []).map((p) => ({ ...p, mainImage: resolveImage(p.mainImage) }))
 }
@@ -46,11 +46,23 @@ export async function getAllPostSlugs(): Promise<{ slug: string }[]> {
 export async function getTournaments(limit = 10): Promise<SanityTournoi[]> {
   if (!isSanityConfigured()) return []
   const tournois = await sanityClient.fetch<RawSanityTournoi[]>(
-    `*[_type == "tournament"] | order(date asc) [0...$limit] {
+    `*[_type == "tournament" && date >= now()] | order(date asc) [0...$limit] {
       _id, title, date, location, level, description, registrationUrl,
       "poster": poster
     }`,
-    { limit: limit - 1 }
+    { limit }
+  )
+  return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
+}
+
+export async function getPastTournaments(limit = 6): Promise<SanityTournoi[]> {
+  if (!isSanityConfigured()) return []
+  const tournois = await sanityClient.fetch<RawSanityTournoi[]>(
+    `*[_type == "tournament" && date < now()] | order(date desc) [0...$limit] {
+      _id, title, date, location, level, description, registrationUrl,
+      "poster": poster
+    }`,
+    { limit }
   )
   return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
 }

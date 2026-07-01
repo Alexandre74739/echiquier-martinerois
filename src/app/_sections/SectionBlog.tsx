@@ -4,11 +4,17 @@ import { IconChevronRight } from "@/src/components/ui/Icons";
 import { Reveal } from "@/src/components/motion/Reveal";
 import type { SanityPost } from "@/src/types/sanity";
 
-function ArticleCard({ article }: { article: SanityPost }) {
+function ArticleCard({
+  article,
+  index = 0,
+}: {
+  article: SanityPost;
+  index?: number;
+}) {
   const date = article.publishedAt ? new Date(article.publishedAt) : null;
   return (
     <Link href={`/blog/${article.slug.current}`} className="group block">
-      <div className="bg-gris-fonce hover:bg-[#1a1a1a] transition-colors">
+      <Reveal index={index} className="bg-gris-fonce hover:bg-[#1a1a1a] transition-colors">
         {article.mainImage && (
           <div className="relative h-48 overflow-hidden">
             <Image
@@ -39,7 +45,7 @@ function ArticleCard({ article }: { article: SanityPost }) {
             </p>
           )}
         </div>
-      </div>
+      </Reveal>
     </Link>
   );
 }
@@ -84,27 +90,23 @@ export function SectionBlog({ articles }: { articles: SanityPost[] }) {
         {articles.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((a, index) => (
-              <Reveal key={a._id} index={index}>
-                <ArticleCard article={a} />
-              </Reveal>
+              <ArticleCard key={a._id} article={a} index={index} />
             ))}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {placeholders.map(({ icon, titre, desc }, index) => (
-              <Reveal key={titre} index={index}>
-                <div className="bg-gris-fonce p-6">
-                  <span
-                    className="text-3xl block mb-4 text-red"
-                    aria-hidden="true"
-                  >
-                    {icon}
-                  </span>
-                  <h3 className="font-display text-xl text-blanc mb-2">
-                    {titre}
-                  </h3>
-                  <p className="text-gris text-sm">{desc}</p>
-                </div>
+              <Reveal key={titre} index={index} className="bg-gris-fonce p-6">
+                <span
+                  className="text-3xl block mb-4 text-red"
+                  aria-hidden="true"
+                >
+                  {icon}
+                </span>
+                <h3 className="font-display text-xl text-blanc mb-2">
+                  {titre}
+                </h3>
+                <p className="text-gris text-sm">{desc}</p>
               </Reveal>
             ))}
           </div>

@@ -34,12 +34,14 @@ export function SectionSEO() {
 
           <div className="grid grid-cols-2 gap-4">
             {niveaux.map(({ piece, titre, desc }, index) => (
-              <Reveal key={titre} index={index}>
-                <div className="bg-blanc p-5 border-l-4 border-red hover:shadow-lg transition-shadow h-full">
-                  <span className="text-2xl text-noir block mb-2" aria-hidden="true">{piece}</span>
-                  <p className="font-display text-lg text-noir tracking-wide">{titre}</p>
-                  <p className="text-gris text-xs mt-1 leading-relaxed">{desc}</p>
-                </div>
+              <Reveal
+                key={titre}
+                index={index}
+                className="bg-blanc p-5 border-l-4 border-red hover:shadow-lg transition-shadow h-full"
+              >
+                <span className="text-2xl text-noir block mb-2" aria-hidden="true">{piece}</span>
+                <p className="font-display text-lg text-noir tracking-wide">{titre}</p>
+                <p className="text-gris text-xs mt-1 leading-relaxed">{desc}</p>
               </Reveal>
             ))}
           </div>
