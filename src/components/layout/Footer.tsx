@@ -84,10 +84,10 @@ export function Footer() {
             </h3>
             <div className="space-y-2 text-sm text-gris">
               <a
-                href="mailto:echiquier.martinerois@gmail.com"
+                href="mailto:echiquierm@gmail.com"
                 className="block hover:text-red transition-colors"
               >
-                echiquier.martinerois@gmail.com
+                echiquierm@gmail.com
               </a>
               <a
                 href="tel:+33671888053"
