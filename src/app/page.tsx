@@ -47,7 +47,7 @@ const faq = [
   {
     question: "Comment inscrire son enfant au club d'échecs à Grenoble ?",
     reponse:
-      "Les enfants sont acceptés dès 6 ans. Contactez-nous par email à echiquier.martinerois@gmail.com ou venez directement un mardi à 18h pour un cours découverte.",
+      "Les enfants sont acceptés dès 6 ans. Contactez-nous par email à echiquierm@gmail.com ou venez directement un mardi à 18h pour un cours découverte.",
   },
 ];
 
@@ -72,7 +72,7 @@ const clubJsonLd = {
     "Club d'échecs à Saint-Martin-d'Hères (Grenoble). Cours pour enfants, ados et adultes tous les mardis.",
   url: "https://echiquier-martinerois.com",
   telephone: "+33671888053",
-  email: "echiquier.martinerois@gmail.com",
+  email: "echiquierm@gmail.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Place de la Liberté",

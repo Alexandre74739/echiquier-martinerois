@@ -46,10 +46,10 @@ export function ContactInfos() {
 
         <InfoItem icon={<IconMail size={22} />} titre="Email">
           <a
-            href="mailto:echiquier.martinerois@gmail.com"
+            href="mailto:echiquierm@gmail.com"
             className="text-red hover:underline break-all"
           >
-            echiquier.martinerois@gmail.com
+            echiquierm@gmail.com
           </a>
         </InfoItem>
 

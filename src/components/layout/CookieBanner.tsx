@@ -24,16 +24,16 @@ export function CookieBanner() {
             </span>
             <p className="text-sm text-gris leading-relaxed">
               Ce site utilise uniquement des cookies strictement nécessaires à
-              son fonctionnement (mémorisation de vos préférences d&apos;affichage).
-              Aucun cookie de suivi ou de mesure d&apos;audience n&apos;est utilisé.
+              son fonctionnement (mémorisation de vos préférences d'affichage).
+              Aucun cookie de suivi ou de mesure d'audience n'est utilisé.
             </p>
           </div>
           <div className="shrink-0">
             <button
               onClick={() => savePrefs({ necessary: true })}
-              className="px-4 py-2 text-sm bg-red hover:bg-red-hover text-blanc font-semibold transition-colors"
+              className="px-4 py-2 text-sm bg-red hover:bg-red-hover text-blanc font-semibold transition-colors cursor-pointer"
             >
-              J&apos;ai compris
+              J'ai compris
             </button>
           </div>
         </div>

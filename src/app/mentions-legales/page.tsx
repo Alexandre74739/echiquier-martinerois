@@ -31,7 +31,7 @@ export default function MentionsLegalesPage() {
               <strong>Forme juridique :</strong> Association loi 1901<br />
               <strong>Siège social :</strong> Place de la Liberté, 38400 Saint-Martin-d'Hères<br />
               <strong>Email :</strong>{' '}
-              <a href="mailto:echiquier.martinerois@gmail.com">echiquier.martinerois@gmail.com</a><br />
+              <a href="mailto:echiquierm@gmail.com">echiquierm@gmail.com</a><br />
               <strong>Président :</strong> Gabriel Guillon — 06 71 88 80 53
             </p>
           </Section>
@@ -98,7 +98,7 @@ export default function MentionsLegalesPage() {
             </ul>
             <p>
               Pour exercer ces droits, contactez-nous à{' '}
-              <a href="mailto:echiquier.martinerois@gmail.com">echiquier.martinerois@gmail.com</a>.
+              <a href="mailto:echiquierm@gmail.com">echiquierm@gmail.com</a>.
               En cas de désaccord, vous pouvez saisir la{' '}
               <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL</a>.
             </p>
