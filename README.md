@@ -53,6 +53,10 @@ Le code source est centralisé dans le répertoire `src/` pour séparer la logiq
     NEXT_PUBLIC_EMAILJS_SERVICE_ID=votre_service_id
     NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=votre_template_id
     NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=votre_cle_publique
+
+    # IndexNow (indexation Bing / DuckDuckGo / Qwant / Yandex)
+    INDEXNOW_KEY=cle_hex_32_caracteres
+    CRON_SECRET=secret_aleatoire
     ```
 
 4.  **Lancement du serveur de développement**
@@ -67,6 +71,7 @@ Le code source est centralisé dans le répertoire `src/` pour séparer la logiq
 * **Gestion Dynamique** : Mise à jour simplifiée des tarifs, des tournois et des actualités via le CMS Sanity.
 * **Formulaire de Contact** : Intégration directe avec EmailJS pour la gestion des demandes d'adhésion.
 * **Optimisation SEO** : Utilisation des métadonnées Next.js pour assurer la visibilité du club.
+* **IndexNow** : Notification automatique (cron hebdomadaire) de Bing, DuckDuckGo, Qwant et Yandex à chaque mise à jour du sitemap, via `/api/indexnow`.
 
 ## Sécurité et Publication
 
