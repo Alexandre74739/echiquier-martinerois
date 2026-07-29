@@ -12,6 +12,13 @@ export const tournamentType = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'URL (slug)',
+      type: 'slug',
+      options: { source: 'title', maxLength: 96 },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',

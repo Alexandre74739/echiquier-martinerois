@@ -47,7 +47,7 @@ export async function getTournaments(limit = 10): Promise<SanityTournoi[]> {
   if (!isSanityConfigured()) return []
   const tournois = await sanityClient.fetch<RawSanityTournoi[]>(
     `*[_type == "tournament" && date >= now()] | order(date asc) [0...$limit] {
-      _id, title, date, location, level, description, registrationUrl,
+      _id, title, slug, date, location, level, description, registrationUrl,
       "poster": poster
     }`,
     { limit }
@@ -59,12 +59,32 @@ export async function getPastTournaments(limit = 6): Promise<SanityTournoi[]> {
   if (!isSanityConfigured()) return []
   const tournois = await sanityClient.fetch<RawSanityTournoi[]>(
     `*[_type == "tournament" && date < now()] | order(date desc) [0...$limit] {
-      _id, title, date, location, level, description, registrationUrl,
+      _id, title, slug, date, location, level, description, registrationUrl,
       "poster": poster
     }`,
     { limit }
   )
   return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
+}
+
+export async function getTournamentBySlug(slug: string): Promise<SanityTournoi | null> {
+  if (!isSanityConfigured()) return null
+  const tournoi = await sanityClient.fetch<RawSanityTournoi>(
+    `*[_type == "tournament" && (slug.current == $slug || _id == $slug)][0] {
+      _id, title, slug, date, location, level, description, registrationUrl,
+      "poster": poster
+    }`,
+    { slug }
+  )
+  if (!tournoi) return null
+  return { ...tournoi, poster: resolveImage(tournoi.poster) }
+}
+
+export async function getAllTournamentSlugs(): Promise<{ slug: string }[]> {
+  if (!isSanityConfigured()) return []
+  return (await sanityClient.fetch<{ slug: string }[]>(
+    `*[_type == "tournament"]{ "slug": coalesce(slug.current, _id) }`
+  )) ?? []
 }
 
 export async function getPricing(): Promise<SanityPricing | null> {

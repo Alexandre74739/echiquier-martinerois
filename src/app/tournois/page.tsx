@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getTournaments, getPastTournaments } from "@/src/lib/sanity/queries";
 import { IconLocation } from "@/src/components/ui/Icons";
 import { Reveal } from "@/src/components/motion/Reveal";
+import { ZoomableImage } from "@/src/components/ui/ZoomableImage";
 import type { SanityTournoi } from "@/src/types/sanity";
 
 export const revalidate = 60;
@@ -169,64 +169,68 @@ function TournoisCard({
   const passe = date ? date < new Date() : false;
   const safeUrl =
     tournoi.registrationUrl?.startsWith("http") ? tournoi.registrationUrl : null;
+  const href = `/tournois/${tournoi.slug?.current ?? tournoi._id}`;
 
   return (
     <Reveal
       index={index}
       className={`bg-blanc border-t-4 overflow-hidden shadow-sm hover:shadow-lg transition-shadow ${passe ? "border-gris opacity-70" : "border-red"}`}
     >
-      {tournoi.poster && (
-        <div className="relative h-52 bg-gris-clair overflow-hidden">
-          <Image
-            src={tournoi.poster}
-            alt={`Affiche ${tournoi.title}`}
-            fill
-            className="object-cover"
-          />
-          {passe && (
-            <div className="absolute inset-0 bg-noir/50 flex items-center justify-center">
-              <span className="font-display text-2xl text-blanc tracking-widest">
-                Terminé
-              </span>
-            </div>
+      <Link href={href} className="group block">
+        {tournoi.poster && (
+          <div className="relative h-52 bg-gris-clair overflow-hidden">
+            <ZoomableImage
+              src={tournoi.poster}
+              alt={`Affiche ${tournoi.title}`}
+              imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            {passe && (
+              <div className="absolute inset-0 bg-noir/50 flex items-center justify-center pointer-events-none">
+                <span className="font-display text-2xl text-blanc tracking-widest">
+                  Terminé
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+        <div className={`p-6 ${safeUrl && !passe ? "pb-0" : ""}`}>
+          {tournoi.level && (
+            <span
+              className={`inline-block text-xs text-blanc px-2 py-0.5 mb-3 font-display tracking-wider ${niveauColor[tournoi.level] ?? "bg-noir"}`}
+            >
+              {tournoi.level}
+            </span>
+          )}
+          <h2 className="font-display text-2xl text-noir group-hover:text-red transition-colors mb-2">
+            {tournoi.title}
+          </h2>
+          {date && (
+            <p
+              className={`text-sm font-semibold mb-1 ${passe ? "text-gris" : "text-red"}`}
+            >
+              {date.toLocaleDateString("fr-FR", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          )}
+          {tournoi.location && (
+            <p className="text-gris text-sm flex items-center gap-1.5">
+              <IconLocation size={13} className="text-red shrink-0" />
+              {tournoi.location}
+            </p>
+          )}
+          {tournoi.description && (
+            <p className="text-gris text-sm mt-3 leading-relaxed line-clamp-3">
+              {tournoi.description}
+            </p>
           )}
         </div>
-      )}
-      <div className="p-6">
-        {tournoi.level && (
-          <span
-            className={`inline-block text-xs text-blanc px-2 py-0.5 mb-3 font-display tracking-wider ${niveauColor[tournoi.level] ?? "bg-noir"}`}
-          >
-            {tournoi.level}
-          </span>
-        )}
-        <h2 className="font-display text-2xl text-noir mb-2">
-          {tournoi.title}
-        </h2>
-        {date && (
-          <p
-            className={`text-sm font-semibold mb-1 ${passe ? "text-gris" : "text-red"}`}
-          >
-            {date.toLocaleDateString("fr-FR", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-        )}
-        {tournoi.location && (
-          <p className="text-gris text-sm flex items-center gap-1.5">
-            <IconLocation size={13} className="text-red shrink-0" />
-            {tournoi.location}
-          </p>
-        )}
-        {tournoi.description && (
-          <p className="text-gris text-sm mt-3 leading-relaxed line-clamp-3">
-            {tournoi.description}
-          </p>
-        )}
-        {safeUrl && !passe && (
+      </Link>
+      {safeUrl && !passe && (
+        <div className="px-6 pb-6">
           <a
             href={safeUrl}
             target="_blank"
@@ -235,8 +239,8 @@ function TournoisCard({
           >
             S'inscrire
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </Reveal>
   );
 }
