@@ -43,6 +43,7 @@ export type SanityPost = {
 export type SanityTournoi = {
   _id: string
   title: string
+  slug?: { current: string }
   date: string | null
   location?: string
   level?: string
