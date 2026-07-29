@@ -380,7 +380,7 @@ export function PuzzleClient() {
             />
             <span className="font-display text-sm tracking-wider text-blanc">
               Vous jouez les{" "}
-              <strong>{orientation === "white" ? "Blancs" : "Noirs"}</strong>
+              <span>{orientation === "white" ? "Blancs" : "Noirs"}</span>
             </span>
           </div>
           <span className="text-gris text-xs font-mono">
