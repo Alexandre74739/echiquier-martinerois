@@ -1,5 +1,5 @@
 import { sanityClient, isSanityConfigured, urlFor } from './client'
-import type { SanityPost, SanityTournoi, SanityPricing } from '@/src/types/sanity'
+import type { SanityPost, SanityTournoi } from '@/src/types/sanity'
 import type { SanityImageObject } from '@sanity/image-url'
 
 /** Type interne pour les documents Sanity avant résolution des images */
@@ -85,11 +85,4 @@ export async function getAllTournamentSlugs(): Promise<{ slug: string }[]> {
   return (await sanityClient.fetch<{ slug: string }[]>(
     `*[_type == "tournament"]{ "slug": coalesce(slug.current, _id) }`
   )) ?? []
-}
-
-export async function getPricing(): Promise<SanityPricing | null> {
-  if (!isSanityConfigured()) return null
-  return sanityClient.fetch<SanityPricing>(
-    `*[_type == "pricing"][0]{ title, tiers }`
-  )
 }

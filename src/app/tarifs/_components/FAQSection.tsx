@@ -16,7 +16,13 @@ const faq: AccordionItem[] = [
   },
   {
     question: 'Comment payer la cotisation ?',
-    reponse: "La cotisation se règle en espèces ou par chèque à l'ordre du club, en début de saison.",
+    reponse:
+      "Vous pouvez régler en ligne par carte bancaire via notre configurateur de tarifs ci-dessus (paiement sécurisé HelloAsso), ou en espèces ou par chèque à l'ordre du club, en début de saison.",
+  },
+  {
+    question: 'Quelle est la différence entre la licence A et la licence B ?',
+    reponse:
+      "La licence A permet de participer à toutes les compétitions homologuées par la FFE (parties classiques, rapides et blitz...) et donne accès au classement Elo national et FIDE ; elle est nécessaire pour les compétitions par équipes. La licence B, moins chère, inclut l'assurance FFE mais ne permet de jouer qu'en compétitions rapides (cadence inférieure à 1h), avec classement rapide uniquement. Choisissez la licence A si vous souhaitez jouer des tournois classiques, la licence B si vous jouez surtout pour le loisir.",
   },
 ]
 
