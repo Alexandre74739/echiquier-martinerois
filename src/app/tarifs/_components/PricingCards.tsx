@@ -1,7 +1,9 @@
+import Link from 'next/link'
 import { PricingCard } from './PricingCard'
-import type { SanityPricing, SanityPricingTier } from '@/src/types/sanity'
+import { TarifConfigurator } from './TarifConfigurator'
+import type { HelloAssoMembershipForm } from '@/src/lib/helloasso/client'
 
-/* Ordre : Gratuit (gauche) → Enfant (centre, featured) → Adulte (droite) */
+/* Repli affiché si l'API HelloAsso est indisponible */
 const tarifsParDefaut = [
   {
     categorie: 'Découverte',
@@ -27,21 +29,26 @@ const tarifsParDefaut = [
   },
 ]
 
-export function PricingCards({ data }: { data: SanityPricing | null }) {
-  if (data?.tiers?.length) {
+export function PricingCards({ forms }: { forms: HelloAssoMembershipForm[] }) {
+  if (forms.length) {
     return (
-      <div className="grid md:grid-cols-3 gap-8 items-start pt-4">
-        {data.tiers.map((tier: SanityPricingTier, i: number) => (
-          <PricingCard
-            key={tier.name}
-            categorie={tier.name}
-            tranche={tier.description ?? ''}
-            prix={tier.price}
-            avantages={tier.features ?? []}
-            featured={i === 1}
-            index={i}
-          />
-        ))}
+      <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className='text-lg text-gris'>
+          <h2 className="font-display text-3xl sm:text-4xl text-noir mb-4">Trouvez votre tarif</h2>
+          <p className="mb-6">
+            Répondez à quelques questions pour connaître le montant exact de votre adhésion : lieu de résidence,
+            catégorie d'âge, licence FFE, et cours en option. Le prix affiché est celui que vous réglerez sur
+            HelloAsso.
+          </p>
+          <p>
+            Un problème avec votre tarif ?{' '}
+            <Link href="/contact" className="text-red hover:text-red-hover underline">
+              Contactez-nous
+            </Link>
+            , nous vous répondrons rapidement.
+          </p>
+        </div>
+        <TarifConfigurator forms={forms} />
       </div>
     )
   }

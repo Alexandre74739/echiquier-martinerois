@@ -17,6 +17,8 @@ const securityHeaders = [
       // next/font/google auto-héberge les polices — pas besoin de fonts.googleapis.com
       "font-src 'self' data:",
       "connect-src 'self' https://lichess.org blob:",
+      // Widget d'adhésion HelloAsso embarqué en iframe sur /tarifs
+      "frame-src 'self' https://www.helloasso.com",
       // Stockfish tourne dans un Web Worker local
       "worker-src 'self' blob:",
       "object-src 'none'",

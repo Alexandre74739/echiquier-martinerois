@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPricing } from "@/src/lib/sanity/queries";
+import { getMembershipForms } from "@/src/lib/helloasso/client";
 import { PricingCards } from "./_components/PricingCards";
 import { FFESection } from "./_components/FFESection";
 import { FAQSection } from "./_components/FAQSection";
@@ -17,7 +17,7 @@ export const metadata = {
 };
 
 export default async function TarifsPage() {
-  const tarifsData = await getPricing().catch(() => null);
+  const forms = await getMembershipForms().catch(() => []);
 
   return (
     <div className="bg-blanc">
@@ -42,8 +42,8 @@ export default async function TarifsPage() {
       </div>
 
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PricingCards data={tarifsData} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PricingCards forms={forms} />
         </div>
       </section>
 
