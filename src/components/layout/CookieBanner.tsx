@@ -25,7 +25,9 @@ export function CookieBanner() {
             <p className="text-sm text-gris leading-relaxed">
               Ce site utilise uniquement des cookies strictement nécessaires à
               son fonctionnement (mémorisation de vos préférences d'affichage).
-              Aucun cookie de suivi ou de mesure d'audience n'est utilisé.
+              Aucun cookie de suivi ou de mesure d'audience n'est utilisé par le
+              site. Le formulaire d'adhésion HelloAsso, intégré sur la page
+              Tarifs, peut déposer ses propres cookies (session, paiement).
             </p>
           </div>
           <div className="shrink-0">

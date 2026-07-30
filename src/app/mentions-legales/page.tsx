@@ -78,14 +78,37 @@ export default function MentionsLegalesPage() {
               soumis aux Clauses Contractuelles Types de l'Union européenne, et ne sont pas revendues
               ni utilisées à d'autres fins.
             </p>
+            <p>
+              Via le formulaire d'adhésion en ligne, géré par notre partenaire de paiement{' '}
+              <strong>HelloAsso</strong> (sous-traitant), nous collectons : nom et prénom, date de
+              naissance, adresse postale, un certificat médical ou questionnaire de santé, les
+              coordonnées d'une personne à contacter en cas d'urgence, ainsi que les informations de
+              paiement nécessaires au règlement de votre adhésion et de votre licence FFE. Le
+              certificat médical constitue une donnée de santé ; il n'est collecté qu'avec votre
+              consentement explicite lors de la soumission du formulaire HelloAsso. Ces données sont
+              également soumises à la{' '}
+              <a href="https://www.helloasso.com/protection-donnees-personnelles" target="_blank" rel="noopener noreferrer">
+                politique de confidentialité de HelloAsso
+              </a>.
+            </p>
 
             <h3>Base légale</h3>
-            <p>Le traitement est fondé sur votre consentement explicite (art. 6.1.a du RGPD),
-              donné lors de la soumission du formulaire.</p>
+            <p>
+              Le traitement des données du formulaire de contact est fondé sur votre consentement
+              explicite (art. 6.1.a du RGPD), donné lors de la soumission du formulaire. Le
+              traitement des données du formulaire d'adhésion est fondé sur l'exécution du contrat
+              d'adhésion (art. 6.1.b) et, pour le certificat médical, sur votre consentement explicite
+              (art. 9.2.a, donnée de santé).
+            </p>
 
             <h3>Durée de conservation</h3>
-            <p>Vos données sont conservées le temps nécessaire à la gestion de votre demande,
-              puis supprimées dans un délai maximum de 12 mois.</p>
+            <p>
+              Les données du formulaire de contact sont conservées le temps nécessaire à la gestion
+              de votre demande, puis supprimées dans un délai maximum de 12 mois. Les données
+              d'adhésion sont conservées pour la durée de la saison sportive et le temps nécessaire
+              au suivi de la licence FFE, conformément aux obligations légales et aux durées de
+              conservation appliquées par HelloAsso.
+            </p>
 
             <h3>Vos droits</h3>
             <p>Conformément au RGPD, vous disposez des droits suivants :</p>
@@ -105,14 +128,20 @@ export default function MentionsLegalesPage() {
           </Section>
 
           <Section titre="5. Cookies">
-            <p>Ce site utilise uniquement :</p>
+            <p>Ce site dépose lui-même uniquement :</p>
             <ul>
               <li>
                 <strong>Cookie de préférences</strong> (nécessaire) : enregistré dans un cookie
                 navigateur pour mémoriser votre accord. Aucune donnée n'est envoyée à des tiers.
               </li>
             </ul>
-            <p>Aucun cookie de suivi ou de mesure d'audience n'est utilisé sur ce site.</p>
+            <p>
+              Aucun cookie de suivi ou de mesure d'audience n'est déposé par le site lui-même. En
+              revanche, lorsque vous ouvrez le formulaire d'adhésion sur la page Tarifs, un widget de
+              paiement <strong>HelloAsso</strong> se charge dans une fenêtre intégrée : HelloAsso peut
+              alors déposer ses propres cookies (session, paiement), soumis à sa propre politique de
+              cookies, indépendante de ce site.
+            </p>
             <p>
               Vous pouvez rouvrir cette information à tout moment via le bouton{' '}
               <OpenCookieBannerLink />
@@ -135,7 +164,7 @@ export default function MentionsLegalesPage() {
           </Section>
 
           <p className="text-sm text-gris mt-10 pt-6 border-t border-gris-clair">
-            Dernière mise à jour : 10 juin 2026
+            Dernière mise à jour : 30 juillet 2026
           </p>
         </div>
       </div>
