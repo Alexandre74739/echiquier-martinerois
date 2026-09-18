@@ -137,10 +137,10 @@ export default function MentionsLegalesPage() {
             </ul>
             <p>
               Aucun cookie de suivi ou de mesure d'audience n'est déposé par le site lui-même. En
-              revanche, lorsque vous ouvrez le formulaire d'adhésion sur la page Tarifs, un widget de
-              paiement <strong>HelloAsso</strong> se charge dans une fenêtre intégrée : HelloAsso peut
-              alors déposer ses propres cookies (session, paiement), soumis à sa propre politique de
-              cookies, indépendante de ce site.
+              revanche, lorsque vous ouvrez le formulaire d'adhésion sur la page Tarifs, le
+              formulaire de paiement <strong>HelloAsso</strong> s'ouvre dans une fenêtre dédiée
+              (pop-up) : HelloAsso peut alors déposer ses propres cookies (session, paiement),
+              soumis à sa propre politique de cookies, indépendante de ce site.
             </p>
             <p>
               Vous pouvez rouvrir cette information à tout moment via le bouton{' '}
