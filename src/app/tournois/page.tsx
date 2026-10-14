@@ -182,6 +182,7 @@ function TournoisCard({
             <ZoomableImage
               src={tournoi.poster}
               alt={`Affiche ${tournoi.title}`}
+              objectPosition={tournoi.posterPosition}
               imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
             />
             {passe && (

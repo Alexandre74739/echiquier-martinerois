@@ -45,4 +45,5 @@ export type SanityTournoi = {
   description?: string
   registrationUrl?: string
   poster: string | null
+  posterPosition: string
 }
