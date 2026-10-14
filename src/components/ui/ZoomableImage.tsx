@@ -7,11 +7,18 @@ type ZoomableImageProps = {
   src: string;
   alt: string;
   imgClassName?: string;
+  fullSrc?: string | null;
   objectPosition?: string;
 };
 
 /** Image en `fill` (parent positionné/dimensionné requis) cliquable pour l'agrandir en modal plein écran. */
-export function ZoomableImage({ src, alt, imgClassName, objectPosition }: ZoomableImageProps) {
+export function ZoomableImage({
+  src,
+  alt,
+  imgClassName,
+  fullSrc,
+  objectPosition,
+}: ZoomableImageProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -73,7 +80,13 @@ export function ZoomableImage({ src, alt, imgClassName, objectPosition }: Zoomab
             ×
           </button>
           <div className="relative w-full h-full max-w-5xl max-h-[85vh]">
-            <Image src={src} alt={alt} fill className="object-contain" sizes="100vw" />
+            <Image
+              src={fullSrc ?? src}
+              alt={alt}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import type { SanityImageObject } from '@sanity/image-url'
 
 /** Type interne pour les documents Sanity avant résolution des images */
 type RawSanityPost = Omit<SanityPost, 'mainImage'> & { mainImage: SanityImageObject | null }
-type RawSanityTournoi = Omit<SanityTournoi, 'poster' | 'posterPosition'> & { poster: SanityImageObject | null }
+type RawSanityTournoi = Omit<SanityTournoi, 'poster' | 'posterFull' | 'posterPosition'> & { poster: SanityImageObject | null }
 
 function resolveImage(image: SanityImageObject | null): string | null {
   if (!image?.asset) return null
@@ -21,8 +21,19 @@ function resolveImagePosition(image: SanityImageObject | null): string {
   return `${pct(x)} ${pct(y)}`
 }
 
+/** URL de l'image entière, en ignorant le recadrage fait dans le Studio. */
+function resolveFullImage(image: SanityImageObject | null): string | null {
+  if (!image?.asset) return null
+  return urlFor(image.asset).width(1600).url()
+}
+
 function resolveTournoi(t: RawSanityTournoi): SanityTournoi {
-  return { ...t, poster: resolveImage(t.poster), posterPosition: resolveImagePosition(t.poster) }
+  return {
+    ...t,
+    poster: resolveImage(t.poster),
+    posterFull: resolveFullImage(t.poster),
+    posterPosition: resolveImagePosition(t.poster),
+  }
 }
 
 export async function getLatestPosts(limit = 6): Promise<SanityPost[]> {
