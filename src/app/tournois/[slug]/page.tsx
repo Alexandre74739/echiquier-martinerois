@@ -134,6 +134,7 @@ export default async function TournoiPage(props: PageProps<"/tournois/[slug]">) 
             <ZoomableImage
               src={tournoi.poster}
               alt={`Affiche ${tournoi.title}`}
+              objectPosition={tournoi.posterPosition}
               imgClassName="object-cover"
             />
           </Reveal>

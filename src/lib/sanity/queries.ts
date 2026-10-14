@@ -4,11 +4,25 @@ import type { SanityImageObject } from '@sanity/image-url'
 
 /** Type interne pour les documents Sanity avant résolution des images */
 type RawSanityPost = Omit<SanityPost, 'mainImage'> & { mainImage: SanityImageObject | null }
-type RawSanityTournoi = Omit<SanityTournoi, 'poster'> & { poster: SanityImageObject | null }
+type RawSanityTournoi = Omit<SanityTournoi, 'poster' | 'posterPosition'> & { poster: SanityImageObject | null }
 
 function resolveImage(image: SanityImageObject | null): string | null {
   if (!image?.asset) return null
   return urlFor(image).width(800).url()
+}
+
+function resolveImagePosition(image: SanityImageObject | null): string {
+  const hotspot = image?.hotspot
+  if (!hotspot) return '50% 0%'
+  const crop = image.crop ?? { left: 0, right: 0, top: 0, bottom: 0 }
+  const x = (hotspot.x - crop.left) / (1 - crop.left - crop.right)
+  const y = (hotspot.y - crop.top) / (1 - crop.top - crop.bottom)
+  const pct = (v: number) => `${Math.round(Math.min(Math.max(v, 0), 1) * 100)}%`
+  return `${pct(x)} ${pct(y)}`
+}
+
+function resolveTournoi(t: RawSanityTournoi): SanityTournoi {
+  return { ...t, poster: resolveImage(t.poster), posterPosition: resolveImagePosition(t.poster) }
 }
 
 export async function getLatestPosts(limit = 6): Promise<SanityPost[]> {
@@ -52,7 +66,7 @@ export async function getTournaments(limit = 10): Promise<SanityTournoi[]> {
     }`,
     { limit }
   )
-  return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
+  return (tournois ?? []).map(resolveTournoi)
 }
 
 export async function getPastTournaments(limit = 6): Promise<SanityTournoi[]> {
@@ -64,7 +78,7 @@ export async function getPastTournaments(limit = 6): Promise<SanityTournoi[]> {
     }`,
     { limit }
   )
-  return (tournois ?? []).map((t) => ({ ...t, poster: resolveImage(t.poster) }))
+  return (tournois ?? []).map(resolveTournoi)
 }
 
 export async function getTournamentBySlug(slug: string): Promise<SanityTournoi | null> {
@@ -77,7 +91,7 @@ export async function getTournamentBySlug(slug: string): Promise<SanityTournoi |
     { slug }
   )
   if (!tournoi) return null
-  return { ...tournoi, poster: resolveImage(tournoi.poster) }
+  return resolveTournoi(tournoi)
 }
 
 export async function getAllTournamentSlugs(): Promise<{ slug: string }[]> {

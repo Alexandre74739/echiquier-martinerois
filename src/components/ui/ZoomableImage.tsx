@@ -7,10 +7,11 @@ type ZoomableImageProps = {
   src: string;
   alt: string;
   imgClassName?: string;
+  objectPosition?: string;
 };
 
 /** Image en `fill` (parent positionné/dimensionné requis) cliquable pour l'agrandir en modal plein écran. */
-export function ZoomableImage({ src, alt, imgClassName }: ZoomableImageProps) {
+export function ZoomableImage({ src, alt, imgClassName, objectPosition }: ZoomableImageProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -46,7 +47,13 @@ export function ZoomableImage({ src, alt, imgClassName }: ZoomableImageProps) {
         className="absolute inset-0 block w-full h-full cursor-zoom-in"
         aria-label={`Agrandir l'image : ${alt}`}
       >
-        <Image src={src} alt={alt} fill className={imgClassName} />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className={imgClassName}
+          style={objectPosition ? { objectPosition } : undefined}
+        />
       </button>
 
       {open && (

@@ -31,6 +31,7 @@ function TournoisCard({
             alt={tournoi.title}
             fill
             className="object-cover"
+            style={{ objectPosition: tournoi.posterPosition }}
           />
         </div>
       )}
