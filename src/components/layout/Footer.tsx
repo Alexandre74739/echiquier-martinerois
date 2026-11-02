@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCookies } from "@/src/components/providers/CookieProvider";
+import { IconExternalLink } from "@/src/components/ui/Icons";
 
 const piecesDecoratives = ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"];
 
@@ -116,10 +117,25 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-10 pt-6 border-t border-gris-fonce flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gris">
-          <p>
-            © {new Date().getFullYear()} L'Échiquier Martinérois. Tous droits
-            réservés.
-          </p>
+          <div className="space-y-1 text-center sm:text-left">
+            <p>
+              © {new Date().getFullYear()} L'Échiquier Martinérois. Tous droits
+              réservés.
+            </p>
+            <p>
+              Site réalisé par{" "}
+              <a
+                href="https://fablioo.com"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-1 text-blanc underline underline-offset-2 hover:text-red transition-colors"
+              >
+                Fablioo
+                <IconExternalLink size={12} />
+                <span className="sr-only">(s'ouvre dans un nouvel onglet)</span>
+              </a>
+            </p>
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-red" aria-hidden="true">
               ♞
