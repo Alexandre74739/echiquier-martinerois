@@ -7,7 +7,7 @@ export function OpenCookieBannerLink() {
   return (
     <button
       onClick={openBanner}
-      className="text-red hover:underline"
+      className="text-red hover:underline cursor-pointer"
     >
       Gérer mes cookies
     </button>

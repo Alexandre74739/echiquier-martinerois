@@ -1,5 +1,6 @@
 import { OpenCookieBannerLink } from '@/src/components/layout/OpenCookieBannerLink'
 import { Reveal } from '@/src/components/motion/Reveal'
+import { IconExternalLink } from '@/src/components/ui/Icons'
 
 export const metadata = {
   title: "Mentions légales",
@@ -32,7 +33,8 @@ export default function MentionsLegalesPage() {
               <strong>Siège social :</strong> Place de la Liberté, 38400 Saint-Martin-d'Hères<br />
               <strong>Email :</strong>{' '}
               <a href="mailto:echiquierm@gmail.com">echiquierm@gmail.com</a><br />
-              <strong>Président :</strong> Gabriel Guillon — 06 71 88 80 53
+              <strong>Président :</strong> Gabriel Guillon — 06 71 88 80 53<br />
+              <strong>Directeur de la publication :</strong> Gabriel Guillon, président de l'association
             </p>
           </Section>
 
@@ -44,7 +46,23 @@ export default function MentionsLegalesPage() {
             </p>
           </Section>
 
-          <Section titre="3. Propriété intellectuelle">
+          <Section titre="3. Conception et réalisation">
+            <p>
+              Ce site a été conçu et développé par <strong>Alexandre-Philippe Perez</strong>,{' '}
+              <a
+                href="https://fablioo.com"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-1 underline-offset-2"
+              >
+                Fablioo
+                <IconExternalLink />
+                <span className="sr-only">(s'ouvre dans un nouvel onglet)</span>
+              </a>.
+            </p>
+          </Section>
+
+          <Section titre="4. Propriété intellectuelle">
             <p>
               L'ensemble du contenu de ce site (textes, images, logo, structure) est la propriété exclusive
               de l'association L'Échiquier Martinérois ou de ses membres. Toute reproduction, même partielle,
@@ -61,7 +79,7 @@ export default function MentionsLegalesPage() {
             </p>
           </Section>
 
-          <Section titre="4. Données personnelles & RGPD">
+          <Section titre="5. Données personnelles & RGPD">
             <h3>Responsable du traitement</h3>
             <p>L'association L'Échiquier Martinérois est responsable du traitement de vos données personnelles.</p>
 
@@ -127,7 +145,7 @@ export default function MentionsLegalesPage() {
             </p>
           </Section>
 
-          <Section titre="5. Cookies">
+          <Section titre="6. Cookies">
             <p>Ce site dépose lui-même uniquement :</p>
             <ul>
               <li>
@@ -149,14 +167,14 @@ export default function MentionsLegalesPage() {
             </p>
           </Section>
 
-          <Section titre="6. Liens externes">
+          <Section titre="7. Liens externes">
             <p>
               Ce site peut contenir des liens vers des sites externes (Lichess, FFE, Google Maps).
               L'Échiquier Martinérois n'est pas responsable du contenu de ces sites.
             </p>
           </Section>
 
-          <Section titre="7. Loi applicable">
+          <Section titre="8. Loi applicable">
             <p>
               Le présent site et les présentes mentions légales sont soumis au droit français.
               En cas de litige, les tribunaux français seront seuls compétents.
@@ -164,7 +182,7 @@ export default function MentionsLegalesPage() {
           </Section>
 
           <p className="text-sm text-gris mt-10 pt-6 border-t border-gris-clair">
-            Dernière mise à jour : 30 juillet 2026
+            Dernière mise à jour : 2 novembre 2026
           </p>
         </div>
       </div>
